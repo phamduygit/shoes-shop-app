@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoes_shop_app/app_theme.dart';
-import 'package:shoes_shop_app/login_page.dart';
+import 'package:shoes_shop_app/constant/app_theme.dart';
+import 'package:shoes_shop_app/auth/login_page.dart';
 
 void main() {
   runApp(const MyApp());

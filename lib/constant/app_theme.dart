@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoes_shop_app/colors.dart';
+import 'package:shoes_shop_app/constant/colors.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
