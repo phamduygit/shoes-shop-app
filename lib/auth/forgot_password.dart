@@ -20,6 +20,7 @@ class ForgotPasswordPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(true);
           },
+          splashRadius: 24,
           icon: SvgPicture.asset(
             "assets/images/back_icon.svg",
             width: 24,

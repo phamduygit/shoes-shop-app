@@ -10,6 +10,11 @@ class AppTheme {
       backgroundColor: AppColors.primaryColor,
       foregroundColor: AppColors.secondaryColor,
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.black
+      ),
+    ),
     // textSelectionTheme: const TextSelectionThemeData(
     //   cursorColor: AppColors.secondaryTextColor,
     //   selectionColor: AppColors.secondaryTextColor,

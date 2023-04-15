@@ -11,4 +11,5 @@ class AppColors {
   static const hintTextColor = Color(0xFF6A6A6A);
   static const white = Colors.white;
   static const buttonColor = Color(0xFF0D6EFD);
+  static const redColorForDiscount = Color(0xFFCD081D);
 }

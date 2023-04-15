@@ -39,32 +39,33 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             cursorColor: AppColors.secondaryTextColor,
             obscureText: isSecure,
             decoration: InputDecoration(
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(14),
-                  ),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(14),
                 ),
-                hintText: widget.hintText,
-                hintStyle: GoogleFonts.poppins(
-                  color: AppColors.hintTextColor,
-                  fontSize: 13,
+              ),
+              hintText: widget.hintText,
+              hintStyle: GoogleFonts.poppins(
+                color: AppColors.hintTextColor,
+                fontSize: 13,
+              ),
+              filled: true,
+              fillColor: AppColors.backgroundTextField,
+              suffixIcon: GestureDetector(
+                child: SvgPicture.asset(
+                  "assets/images/eye_icon.svg",
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.scaleDown,
                 ),
-                filled: true,
-                fillColor: AppColors.backgroundTextField,
-                suffixIcon: GestureDetector(
-                  child: SvgPicture.asset(
-                    "assets/images/eye_icon.svg",
-                    width: 24,
-                    height: 24,
-                    fit: BoxFit.scaleDown,
-                  ),
-                  onTap: () {
-                    setState(() {
-                      isSecure = !isSecure;
-                    });
-                  },
-                )),
+                onTap: () {
+                  setState(() {
+                    isSecure = !isSecure;
+                  });
+                },
+              ),
+            ),
           ),
         )
       ],
