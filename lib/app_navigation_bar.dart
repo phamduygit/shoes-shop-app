@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shoes_shop_app/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
-import 'package:shoes_shop_app/home_page.dart';
+import 'package:shoes_shop_app/home/home_page.dart';
 import 'package:shoes_shop_app/orders_page.dart';
 import 'package:shoes_shop_app/profile_page.dart';
 import 'package:shoes_shop_app/wallet_page.dart';

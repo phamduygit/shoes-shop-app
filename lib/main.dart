@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shoes_shop_app/app_navigation_bar.dart';
-import 'package:shoes_shop_app/auth/login_page.dart';
 import 'package:shoes_shop_app/constant/app_theme.dart';
 
 void main() {
@@ -19,9 +18,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      // home: const AppNavigationBar(),
+      home: const AppNavigationBar(),
       // home: const HomePage()
-      home: const LoginPage(),
+      // home: const LoginPage(),
     );
   }
 }
