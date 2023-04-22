@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TitleAndSeeAllButton extends StatelessWidget {
-  const TitleAndSeeAllButton({
+class TitleAndButton extends StatelessWidget {
+  const TitleAndButton({
     super.key,
     required this.title,
     required this.onPressedSeeAll,
+    required this.titleButton,
   });
+
   final String title;
   final VoidCallback onPressedSeeAll;
+  final String titleButton;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,7 +27,7 @@ class TitleAndSeeAllButton extends StatelessWidget {
           ),
           TextButton(
             onPressed: onPressedSeeAll,
-            child: const Text("See All"),
+            child: Text(titleButton),
           ),
         ],
       ),

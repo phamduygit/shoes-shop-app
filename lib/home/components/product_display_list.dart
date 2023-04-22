@@ -11,7 +11,6 @@ class ProductDisplayList extends StatelessWidget {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 2,
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
       childAspectRatio: 0.64,

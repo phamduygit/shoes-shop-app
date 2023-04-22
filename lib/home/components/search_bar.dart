@@ -6,16 +6,19 @@ import 'package:shoes_shop_app/constant/colors.dart';
 class SearchBar extends StatelessWidget {
   const SearchBar({
     super.key,
+    required this.onTap,
   });
 
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      height: 50,
+    return GestureDetector(
+      onTap: onTap,
       child: TextField(
+        enabled: false,
         cursorColor: AppColors.secondaryTextColor,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(12.0),
           border: const OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.all(

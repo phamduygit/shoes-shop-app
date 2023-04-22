@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoes_shop_app/home/my_wish_list.dart';
+import 'package:shoes_shop_app/home/notification_page.dart';
 
 class HeaderHomePage extends StatelessWidget {
   const HeaderHomePage({
@@ -46,13 +48,25 @@ class HeaderHomePage extends StatelessWidget {
             children: [
               IconButton(
                 icon: SvgPicture.asset("assets/images/heart_icon.svg"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyWishList(),
+                    ),
+                  );
+                },
                 iconSize: 24,
                 splashRadius: 24,
               ),
               IconButton(
                 icon: SvgPicture.asset("assets/images/bell_icon.svg"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Notificationpage(),
+                    ),
+                  );
+                },
                 iconSize: 24,
                 splashRadius: 24,
               ),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/home/components/branch_categories.dart';
 import 'package:shoes_shop_app/home/components/header_home_page.dart';
 import 'package:shoes_shop_app/home/components/product_display_list.dart';
 import 'package:shoes_shop_app/home/components/search_bar.dart';
 import 'package:shoes_shop_app/home/components/special_offers_card.dart';
-import 'package:shoes_shop_app/home/components/title_and_see_all_button.dart';
+import 'package:shoes_shop_app/home/components/title_and_button.dart';
+import 'package:shoes_shop_app/home/most_popular_page.dart';
+import 'package:shoes_shop_app/home/search_page.dart';
+import 'package:shoes_shop_app/home/special_offers_page.dart';
 
 import 'components/filter_branches.dart';
 
@@ -20,20 +24,52 @@ class HomePage extends StatelessWidget {
             children: [
               const HeaderHomePage(),
               const SizedBox(height: 20),
-              const SearchBar(),
-              const SizedBox(height: 10),
-              TitleAndSeeAllButton(
-                title: "Special Offers",
-                onPressedSeeAll: () {},
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SearchBar(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SerachPage(),
+                      ),
+                    );
+                  },
+                ),
               ),
               const SizedBox(height: 10),
-              const SpecialOfferCard(),
+              TitleAndButton(
+                title: "Special Offers",
+                onPressedSeeAll: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SpecialOffersPage(),
+                    ),
+                  );
+                },
+                titleButton: "See All",
+              ),
+              const SpecialOfferCard(
+                  backgroundColor: AppColors.redColorForDiscount,
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+                  percentDiscount: 25,
+                  title: 'Today Special!',
+                  description:
+                      "Get discount for every \norder, only valid for today"),
               const BranchCategories(),
-              TitleAndSeeAllButton(
+              TitleAndButton(
                 title: "Most Popular",
-                onPressedSeeAll: () {},
+                onPressedSeeAll: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MostPopularPage(),
+                    ),
+                  );
+                },
+                titleButton: "See All",
               ),
               const FilterBranches(
+                selectedItemName: "All",
                 branchCategories: [
                   "All",
                   "Nike",
@@ -45,7 +81,10 @@ class HomePage extends StatelessWidget {
                   "Converse"
                 ],
               ),
-              const ProductDisplayList()
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: ProductDisplayList(),
+              )
             ],
           ),
         ),
@@ -53,6 +92,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
-

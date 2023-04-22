@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/home/branch_detail_page.dart';
 
 class BranchCard extends StatelessWidget {
   const BranchCard({
@@ -16,14 +17,23 @@ class BranchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-              color: AppColors.backgroundTextField, shape: BoxShape.circle),
-          child: SvgPicture.asset(
-            filePathToImage,
-            width: 32,
-            height: 32,
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => BranchDetailPage(title: name),
+              ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+                color: AppColors.backgroundTextField, shape: BoxShape.circle),
+            child: SvgPicture.asset(
+              filePathToImage,
+              width: 32,
+              height: 32,
+            ),
           ),
         ),
         const SizedBox(height: 20),

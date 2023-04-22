@@ -12,4 +12,7 @@ class AppColors {
   static const white = Colors.white;
   static const buttonColor = Color(0xFF0D6EFD);
   static const redColorForDiscount = Color(0xFFCD081D);
+  static const backgroundColor = Color(0xFFFCFCFC);
+  static const secondBackgroundColor = Color(0xFFF3F3F3);
+  static const resetButtonBackgroundColor = Color(0xFFE7E7E7);
 }

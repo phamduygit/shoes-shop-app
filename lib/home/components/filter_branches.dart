@@ -6,8 +6,10 @@ class FilterBranches extends StatefulWidget {
   const FilterBranches({
     super.key,
     required this.branchCategories,
+    required this.selectedItemName,
   });
 
+  final String selectedItemName;
   final List<String> branchCategories;
 
   @override
@@ -15,7 +17,13 @@ class FilterBranches extends StatefulWidget {
 }
 
 class _FilterBranchesState extends State<FilterBranches> {
-  String selectedItemName = "All";
+  late String selectedItemName;
+  @override
+  void initState() {
+    super.initState();
+    selectedItemName = widget.selectedItemName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -56,8 +64,8 @@ class FilterItem extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: const EdgeInsets.only(left: 20),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin: const EdgeInsets.only(left: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.black, width: 2),
@@ -65,10 +73,11 @@ class FilterItem extends StatelessWidget {
         ),
         child: Text(
           name,
-          style: GoogleFonts.raleway(
+          style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-            color: isSelected ? AppColors.primaryColor : AppColors.secondaryColor,
+            color:
+                isSelected ? AppColors.primaryColor : AppColors.secondaryColor,
           ),
         ),
       ),

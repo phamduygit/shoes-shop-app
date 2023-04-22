@@ -5,27 +5,40 @@ import 'package:shoes_shop_app/constant/colors.dart';
 class SpecialOfferCard extends StatelessWidget {
   const SpecialOfferCard({
     super.key,
+    required this.backgroundColor,
+    required this.imageUrl,
+    required this.percentDiscount,
+    required this.title,
+    required this.description,
   });
 
+  final Color backgroundColor;
+  final String imageUrl;
+  final double percentDiscount;
+  final String title;
+  final String description;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
       height: 180,
-      decoration: const BoxDecoration(
-          color: AppColors.redColorForDiscount,
-          borderRadius: BorderRadius.all(Radius.circular(35))),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(35),
+        ),
+      ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
             right: 35,
             child: Image.network(
-              'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+              imageUrl,
               width: 180,
               height: 180,
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.cover,
             ),
           ),
           Positioned(
@@ -35,7 +48,7 @@ class SpecialOfferCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "25%",
+                  "$percentDiscount%",
                   style: GoogleFonts.poppins(
                     fontSize: 28,
                     color: AppColors.primaryColor,
@@ -44,7 +57,7 @@ class SpecialOfferCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Today' Special!",
+                  title,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     color: AppColors.primaryColor,
@@ -53,7 +66,7 @@ class SpecialOfferCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Get discount for every \norder, only valid for today",
+                  description,
                   style: GoogleFonts.poppins(
                       fontSize: 12, color: AppColors.primaryColor),
                 ),
