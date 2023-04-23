@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoes_shop_app/component/quantity.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
 class ProductDetailPage extends StatelessWidget {
@@ -209,68 +210,7 @@ class ProductDetailPage extends StatelessWidget {
   }
 }
 
-class QuantityWidget extends StatefulWidget {
-  const QuantityWidget({
-    super.key,
-  });
 
-  @override
-  State<QuantityWidget> createState() => _QuantityWidgetState();
-}
-
-class _QuantityWidgetState extends State<QuantityWidget> {
-  int count = 1;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
-        color: AppColors.secondBackgroundColor,
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                count = count - 1;
-              });
-            },
-            icon: Image.asset(
-              "assets/images/subtract_icon.png",
-              height: 18,
-              width: 18,
-            ),
-            splashRadius: 12,
-          ),
-          SizedBox(
-            width: 20,
-            child: Text(
-              "$count",
-              style: GoogleFonts.poppins(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                count = count + 1;
-              });
-            },
-            icon: Image.asset(
-              "assets/images/plus_icon.png",
-              height: 18,
-              width: 18,
-            ),
-            splashRadius: 12,
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class SizeSelection extends StatefulWidget {
   const SizeSelection(

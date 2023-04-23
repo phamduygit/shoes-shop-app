@@ -37,7 +37,7 @@ class Notificationpage extends StatelessWidget {
               ),
               SizedBox(height: 12),
               PromoteCard(
-                image: "assets/images/discount_icon.svg",
+                image: "assets/images/discount_icon.png",
                 title: "30% Special Discount!",
                 description: "Special promotion only valid today",
               ),
@@ -46,12 +46,12 @@ class Notificationpage extends StatelessWidget {
                 title: 'Yesterday',
               ),
               PromoteCard(
-                image: "assets/images/wallet_icon_1.svg",
+                image: "assets/images/wallet_icon_1.png",
                 title: "Top Up E-Wallet Successful!",
                 description: "New Services Available!",
               ),
               PromoteCard(
-                image: "assets/images/location_icon.svg",
+                image: "assets/images/location_icon.png",
                 title: "New Services Available!",
                 description: "Now you can trach orders in real time",
               ),
@@ -60,12 +60,12 @@ class Notificationpage extends StatelessWidget {
                 title: 'December 22, 2024',
               ),
               PromoteCard(
-                image: "assets/images/card_icon.svg",
+                image: "assets/images/card_icon.png",
                 title: "Credit Card Connected!",
                 description: "Credit Card has been linked!",
               ),
               PromoteCard(
-                image: "assets/images/user_icon.svg",
+                image: "assets/images/user_icon.png",
                 title: "Account Setup SuccessFull",
                 description: "Your account has been created!",
               ),
@@ -131,11 +131,10 @@ class PromoteCard extends StatelessWidget {
                 ),
                 child: Container(
                   padding: const EdgeInsets.all(0),
-                  child: SvgPicture.asset(
+                  child: Image.asset(
                     image,
                     fit: BoxFit.fill,
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.primaryColor, BlendMode.srcIn),
+                    color: AppColors.primaryColor,
                   ),
                 ),
               ),

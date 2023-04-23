@@ -29,7 +29,7 @@ class BranchDetailPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: SvgPicture.asset("assets/images/magnifying_icon.svg"),
+            icon: Image.asset("assets/images/magnifying_icon.png"),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

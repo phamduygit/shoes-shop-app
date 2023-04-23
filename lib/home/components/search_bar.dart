@@ -43,13 +43,12 @@ class SearchBar extends StatelessWidget {
             onTap: () {},
           ),
           prefixIcon: GestureDetector(
-            child: SvgPicture.asset(
-              "assets/images/magnifying_icon.svg",
+            child: Image.asset(
+              "assets/images/magnifying_icon.png",
               width: 5,
               height: 5,
               fit: BoxFit.scaleDown,
-              colorFilter: const ColorFilter.mode(
-                  AppColors.secondaryTextColor, BlendMode.srcIn),
+              color: AppColors.secondaryTextColor,
             ),
             onTap: () {},
           ),

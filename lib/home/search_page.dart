@@ -185,13 +185,12 @@ class BoderSideSearchBar extends StatelessWidget {
             },
           ),
           prefixIcon: GestureDetector(
-            child: SvgPicture.asset(
-              "assets/images/magnifying_icon.svg",
+            child: Image.asset(
+              "assets/images/magnifying_icon.png",
               width: 5,
               height: 5,
               fit: BoxFit.scaleDown,
-              colorFilter: const ColorFilter.mode(
-                  AppColors.secondaryTextColor, BlendMode.srcIn),
+              color: AppColors.secondaryTextColor,
             ),
             onTap: () {},
           ),
@@ -210,11 +209,12 @@ class ShortAndFilterSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          color: AppColors.primaryColor),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        color: AppColors.primaryColor,
+      ),
       height: MediaQuery.of(context).size.height * 0.75,
       child: Center(
         child: Column(

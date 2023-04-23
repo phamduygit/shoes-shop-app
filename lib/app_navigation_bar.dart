@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shoes_shop_app/cart_page.dart';
+import 'package:shoes_shop_app/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/home/home_page.dart';
-import 'package:shoes_shop_app/orders_page.dart';
-import 'package:shoes_shop_app/profile_page.dart';
-import 'package:shoes_shop_app/wallet_page.dart';
+import 'package:shoes_shop_app/order/orders_page.dart';
+import 'package:shoes_shop_app/profile/profile_page.dart';
+import 'package:shoes_shop_app/wallet/wallet_page.dart';
 
 class AppNavigationBar extends StatefulWidget {
   const AppNavigationBar({super.key});
@@ -19,8 +19,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    CartPage(),
     OrdersPage(),
+    CartPage(),
     WalletPage(),
     ProfilePage()
   ];
