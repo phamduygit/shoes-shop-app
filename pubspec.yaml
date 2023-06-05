@@ -39,6 +39,9 @@ dependencies:
   flutter_svg: ^2.0.5
   material_dialogs: ^1.1.4
   animated_bottom_navigation_bar: ^1.2.0
+  loading_animation_widget: ^1.2.0+4
+  http: ^0.13.6
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:

@@ -5,11 +5,12 @@ import 'package:shoes_shop_app/constant/colors.dart';
 
 class FormalTextField extends StatelessWidget {
   const FormalTextField({
-    super.key, required this.label, required this.hintText,
+    super.key, required this.label, required this.hintText, required this.controller,
   });
 
   final String label;
   final String hintText;
+  final TextEditingController controller;
   
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class FormalTextField extends StatelessWidget {
         SizedBox(
           height: 50,
           child: TextField(
+            controller: controller,
             cursorColor: AppColors.secondaryTextColor,
             style: GoogleFonts.poppins(
               color: AppColors.secondaryTextColor,

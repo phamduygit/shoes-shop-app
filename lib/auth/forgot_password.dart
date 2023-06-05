@@ -6,8 +6,24 @@ import 'package:shoes_shop_app/auth/components/email_text_field.dart';
 import 'package:shoes_shop_app/auth/components/welcome_string.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
+import 'components/auth_dialog.dart';
+
+class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
+
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +57,8 @@ class ForgotPasswordPage extends StatelessWidget {
                       "Fill Your Email Account To Reset\nYour Password",
                 ),
                 const SizedBox(height: 30),
-                const EmailTextField(
+                EmailTextField(
+                  emailController: myController,
                   label: "Email Address",
                   hintText: "xyz@gmail.com",
                 ),
@@ -52,52 +69,12 @@ class ForgotPasswordPage extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return Dialog(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(16.0),
-                            ),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            height: 196,
-                            width: 335,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 44,
-                                  width: 44,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.buttonColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    "assets/images/email_icon.svg",
-                                    height: 24,
-                                    width: 24,
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  "Check Your Email",
-                                  style: GoogleFonts.raleway(
-                                      fontSize: 16,
-                                      color: AppColors.primaryTextColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "We have Send Password Recovery\nCode In Your Email",
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    color: AppColors.secondaryTextColor,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                )
-                              ],
-                            ),
-                          ),
+                        return const AuthDialog(
+                          subject: "Check Your Email",
+                          message:
+                              "We have Send Password Recovery\nCode In Your Email",
+                          iconPath: "assets/images/email_icon.svg",
+                          color: AppColors.buttonColor,
                         );
                       },
                     );
@@ -111,3 +88,5 @@ class ForgotPasswordPage extends StatelessWidget {
     );
   }
 }
+
+

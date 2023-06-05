@@ -9,9 +9,18 @@ import 'package:shoes_shop_app/auth/components/password_text_field.dart';
 import 'package:shoes_shop_app/auth/components/welcome_string.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +56,28 @@ class SignUpPage extends StatelessWidget {
                           "Fill your details or continue with\nsocial media",
                     ),
                     const SizedBox(height: 30),
-                    const FormalTextField(label: "Name", hintText: "Peter"),
-                    const SizedBox(height: 30),
-                    const EmailTextField(
-                      label: "Email Address",
-                      hintText: "xyz@gmail.com",
+                    FormalTextField(
+                      label: "Name",
+                      hintText: "Peter",
+                      controller: nameController,
                     ),
                     const SizedBox(height: 30),
-                    const PasswordTextField(
+                    EmailTextField(
+                      label: "Email Address",
+                      hintText: "xyz@gmail.com",
+                      emailController: emailController,
+                    ),
+                    const SizedBox(height: 30),
+                    PasswordTextField(
                       label: "Password",
                       hintText: "Enter your password",
+                      passwordController: passwordController,
+                    ),
+                    const SizedBox(height: 30),
+                    PasswordTextField(
+                      label: "Confirm Password",
+                      hintText: "Enter again your password",
+                      passwordController: confirmPasswordController,
                     ),
                     const SizedBox(height: 40),
                     AuthButton(

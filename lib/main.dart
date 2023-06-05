@@ -1,8 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:shoes_shop_app/app_navigation_bar.dart';
 import 'package:shoes_shop_app/constant/app_theme.dart';
+import 'auth/login_page.dart';
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -18,9 +30,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: const AppNavigationBar(),
-      // home: const HomePage()
-      // home: const LoginPage(),
+      // home: const AppNavigationBar(),
+      home: const LoginPage(),
     );
   }
 }

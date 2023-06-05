@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
@@ -7,11 +6,12 @@ class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
     super.key,
     required this.label,
-    required this.hintText,
+    required this.hintText, required this.passwordController,
   });
 
   final String label;
   final String hintText;
+  final TextEditingController passwordController;
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -36,8 +36,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         SizedBox(
           height: 50,
           child: TextField(
+            controller: widget.passwordController,
             cursorColor: AppColors.secondaryTextColor,
             obscureText: isSecure,
+            style: GoogleFonts.poppins(
+              color: AppColors.secondaryTextColor,
+            ),
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -52,19 +56,32 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               ),
               filled: true,
               fillColor: AppColors.backgroundTextField,
-              suffixIcon: GestureDetector(
-                child: SvgPicture.asset(
-                  "assets/images/eye_icon.svg",
-                  width: 24,
-                  height: 24,
-                  fit: BoxFit.scaleDown,
+              hoverColor: AppColors.secondaryTextColor,
+              suffixIcon: Container(
+                width: 24,
+                height: 24,
+                padding: const EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  child: Image.asset(
+                    isSecure
+                        ? "assets/images/eye-off-outline.png"
+                        : "assets/images/eye-outline.png",
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.scaleDown,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      isSecure = !isSecure;
+                    });
+                  },
                 ),
-                onTap: () {
-                  setState(() {
-                    isSecure = !isSecure;
-                  });
-                },
               ),
+              suffixIconConstraints: const BoxConstraints(
+                minHeight: 28,
+                minWidth: 28,
+              ),
+              
             ),
           ),
         )
