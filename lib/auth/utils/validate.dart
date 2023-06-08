@@ -1,5 +1,5 @@
 class AuthValidate {
-  dynamic validateEmailPassword(String email, String password) {
+  dynamic validateSignInForm(String email, String password) {
     final bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
@@ -20,5 +20,29 @@ class AuthValidate {
     }
 
     return null;
+  }
+
+  dynamic validateSignUpForm(
+      String name, String email, String password, String confirmPassword) {
+    var validtaeEmailPasswordResult = validateSignInForm(email, password);
+
+    if (name.isEmpty) {
+      return {
+        'subject': 'Invalid name',
+        'message': 'Name must not be blank',
+      };
+    }
+
+    if (validtaeEmailPasswordResult != null) {
+      return validtaeEmailPasswordResult;
+    }
+
+    if (confirmPassword != password) {
+      return {
+        'subject': 'Invalid password',
+        'message': "Confirm password doesn't match with password"
+      };
+      
+    }
   }
 }

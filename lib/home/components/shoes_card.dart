@@ -37,7 +37,7 @@ class ShoesCard extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(20.0),
                   child: AspectRatio(
                     aspectRatio: 1 / 1,
                     child: Image.network(
@@ -47,8 +47,8 @@ class ShoesCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 2,
+                  right: 2,
                   child: IconButton(
                     splashRadius: 16,
                     onPressed: () {
@@ -78,7 +78,7 @@ class ShoesCard extends StatelessWidget {
             Text(
               name,
               style: GoogleFonts.poppins(
-                  fontSize: 16, fontWeight: FontWeight.bold),
+                  fontSize: 16, fontWeight: FontWeight.w600),
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 5),
@@ -112,7 +112,7 @@ class ShoesCard extends StatelessWidget {
             Text(
               "\$$price",
               style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.w600),
+                  fontSize: 18, fontWeight: FontWeight.w500),
             )
           ],
         ),

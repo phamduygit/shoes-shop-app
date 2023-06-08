@@ -16,5 +16,6 @@ class AppColors {
   static const secondBackgroundColor = Color(0xFFF3F3F3);
   static const resetButtonBackgroundColor = Color(0xFFE7E7E7);
   static const circleBorderColor = Color(0xFFE2E2E2);
-  static const warningColor = Color(0xFFffcc00);
+  static const warningColor = Color(0xFFFFCC00);
+  static const successColor = Color(0xFF22BB33);
 }

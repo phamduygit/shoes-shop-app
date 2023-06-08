@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shoes_shop_app/app_navigation_bar.dart';
+import 'package:shoes_shop_app/auth/login_page.dart';
 import 'package:shoes_shop_app/constant/app_theme.dart';
-import 'auth/login_page.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       // home: const AppNavigationBar(),
-      home: const LoginPage(),
+      home: const LoginPage()
     );
   }
 }

@@ -68,14 +68,14 @@ class FilterItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.black, width: 2),
+          border: Border.all(color: Colors.black, width: 1),
           color: isSelected ? AppColors.secondaryColor : AppColors.primaryColor,
         ),
         child: Text(
           name,
           style: GoogleFonts.poppins(
             fontSize: 14,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+            fontWeight: isSelected ? FontWeight.w500 : FontWeight.w600,
             color:
                 isSelected ? AppColors.primaryColor : AppColors.secondaryColor,
           ),

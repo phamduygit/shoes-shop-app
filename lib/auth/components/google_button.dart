@@ -9,12 +9,12 @@ class GoogleButton extends StatelessWidget {
   });
 
   final String title;
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => onPressed,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.backgroundTextField,
         minimumSize: const Size.fromHeight(50),

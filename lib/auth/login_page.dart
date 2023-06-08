@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   Future<dynamic> singIn({required BuildContext buildContext}) async {
-    var validateResult = AuthValidate().validateEmailPassword(
+    var validateResult = AuthValidate().validateSignInForm(
       emailController.text,
       passwordController.text,
     );
@@ -156,7 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 24),
                         GoogleButton(
                           title: "Sign In with Google",
-                          onPressed: () {},
+                          onPressed: () async {
+                            var data = await AuthService().signInWithGoogle();
+                            var googleAuthen = await data.authentication;
+                            print(googleAuthen.idToken);
+                          },
                         ),
                       ],
                     ),
