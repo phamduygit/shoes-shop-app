@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shoes_shop_app/component/auth_builder.dart';
-import 'package:shoes_shop_app/component/unauthorize_dialog.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
-import 'package:shoes_shop_app/views/auth/components/auth_dialog.dart';
-import 'package:shoes_shop_app/views/auth/login_page.dart';
 import 'package:shoes_shop_app/views/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/home/home_page.dart';

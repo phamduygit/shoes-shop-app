@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     if (response == null) return;
 
     if (response.statusCode == HttpStatus.ok) {
-      var data = jsonDecode(response.body);
+      var data = response.data;
 
       // Obtain shared preferences.
       final SharedPreferences prefs = await SharedPreferences.getInstance();

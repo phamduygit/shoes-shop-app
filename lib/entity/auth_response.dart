@@ -1,4 +1,4 @@
-class AuthResponse {
-  late int statusCode;
-  dynamic data;
+class AuthenticateResponse {
+  int statusCode = 0;
+  String message = "";
 }

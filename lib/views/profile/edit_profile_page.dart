@@ -13,7 +13,7 @@ import 'package:shoes_shop_app/entity/auth_response.dart';
 import 'package:shoes_shop_app/views/auth/components/email_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/formal_text_field.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
-import 'package:shoes_shop_app/views/profile/apis/ProfileService.dart';
+import 'package:shoes_shop_app/views/profile/apis/profile_service.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -35,7 +35,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> handlePressEditImageButton() async {
     try {
-      
       final ImagePicker picker = ImagePicker();
       // Pick an image.
 
@@ -43,8 +42,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (image != null) {
         File file = File(image.path);
         loadingController.load();
-        final AuthResponse response = await ProfileService().uploadImage(file);
+        final response = await ProfileService().uploadImage(file);
         loadingController.loadingComplete();
+        // Login session is expired
+        if (response is AuthenticateResponse) {
+          if (response.statusCode == HttpStatus.unauthorized) {
+            authController.setAuthorize(false);
+          }
+        }
         if (response.statusCode == HttpStatus.created) {
           setState(() {
             userAvatar = response.data['url'];
@@ -55,7 +60,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         }
       }
     } catch (err) {
-      debugPrint(err.toString());
+      debugPrint("Error: ${err.toString()}");
+      loadingController.loadingComplete();
     }
   }
 
@@ -86,7 +92,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
             elevation: 0,
-            backgroundColor: AppColors.backgroundColor,
           ),
           body: SafeArea(
             child: Padding(

@@ -72,8 +72,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     debugPrint("Response: ${jsonDecode(response.body)}");
     if (response.statusCode == HttpStatus.ok) {
-      var data = jsonDecode(response.body);
-
       if (context.mounted) {
         showDialog(
           context: context,
@@ -88,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       }
     } else if (response.statusCode == HttpStatus.badRequest) {
-      var data = jsonDecode(response.body);
+      var data = response.data;
 
       if (context.mounted) {
         showDialog(
