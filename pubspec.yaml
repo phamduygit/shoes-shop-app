@@ -43,6 +43,9 @@ dependencies:
   http: ^0.13.6
   shared_preferences: ^2.1.1
   google_sign_in: ^6.1.4
+  image_picker: ^0.8.8
+  dio: ^5.2.1
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

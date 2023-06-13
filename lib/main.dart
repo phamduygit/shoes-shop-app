@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:shoes_shop_app/app_navigation_bar.dart';
-import 'package:shoes_shop_app/auth/login_page.dart';
 import 'package:shoes_shop_app/constant/app_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -25,14 +25,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    
+    return GetMaterialApp(
       title: 'Shoes App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      // home: const AppNavigationBar(),
-      home: const LoginPage()
+      home: const AppNavigationBar(),
+      // home: const LoginPage()
     );
   }
 }

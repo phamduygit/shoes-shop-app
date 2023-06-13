@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shoes_shop_app/cart/cart_page.dart';
+import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shoes_shop_app/component/auth_builder.dart';
+import 'package:shoes_shop_app/component/unauthorize_dialog.dart';
+import 'package:shoes_shop_app/controller/auth_controller.dart';
+import 'package:shoes_shop_app/controller/loading_controller.dart';
+import 'package:shoes_shop_app/views/auth/components/auth_dialog.dart';
+import 'package:shoes_shop_app/views/auth/login_page.dart';
+import 'package:shoes_shop_app/views/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
-import 'package:shoes_shop_app/home/home_page.dart';
-import 'package:shoes_shop_app/order/orders_page.dart';
-import 'package:shoes_shop_app/profile/profile_page.dart';
-import 'package:shoes_shop_app/wallet/wallet_page.dart';
+import 'package:shoes_shop_app/views/home/home_page.dart';
+import 'package:shoes_shop_app/views/order/orders_page.dart';
+import 'package:shoes_shop_app/views/profile/profile_page.dart';
+import 'package:shoes_shop_app/views/wallet/wallet_page.dart';
 
 class AppNavigationBar extends StatefulWidget {
   const AppNavigationBar({super.key});
@@ -16,6 +24,9 @@ class AppNavigationBar extends StatefulWidget {
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
   var _selectedIndex = 0;
+
+  final AuthController authController = Get.put(AuthController());
+  final LoadingController loadingController = Get.put(LoadingController());
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
@@ -31,62 +42,78 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    if (authController.isNotAuthorize()) {
+      // show progress dialog
+
+      // refresh token
+    }
+  }
+
   static const selectedColor =
       ColorFilter.mode(AppColors.primaryTextColor, BlendMode.srcIn);
   static const unSelectedColor =
       ColorFilter.mode(AppColors.secondaryTextColor, BlendMode.srcIn);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "assets/images/house_icon.svg",
-              colorFilter:
-                  _selectedIndex == 0 ? selectedColor : unSelectedColor,
-            ),
-            label: 'Home',
+    return Stack(
+      children: [
+        Scaffold(
+          body: _widgetOptions.elementAt(_selectedIndex),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/images/house_icon.svg",
+                  colorFilter:
+                      _selectedIndex == 0 ? selectedColor : unSelectedColor,
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/images/bag_icon.svg",
+                  colorFilter:
+                      _selectedIndex == 1 ? selectedColor : unSelectedColor,
+                ),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/images/cart_icon.svg",
+                  colorFilter:
+                      _selectedIndex == 2 ? selectedColor : unSelectedColor,
+                ),
+                label: 'Orders',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/images/wallet_icon.svg",
+                  colorFilter:
+                      _selectedIndex == 3 ? selectedColor : unSelectedColor,
+                ),
+                label: 'Wallet',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  "assets/images/person_icon.svg",
+                  colorFilter:
+                      _selectedIndex == 4 ? selectedColor : unSelectedColor,
+                ),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            showSelectedLabels: false,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "assets/images/bag_icon.svg",
-              colorFilter:
-                  _selectedIndex == 1 ? selectedColor : unSelectedColor,
-            ),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "assets/images/cart_icon.svg",
-              colorFilter:
-                  _selectedIndex == 2 ? selectedColor : unSelectedColor,
-            ),
-            label: 'Orders',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "assets/images/wallet_icon.svg",
-              colorFilter:
-                  _selectedIndex == 3 ? selectedColor : unSelectedColor,
-            ),
-            label: 'Wallet',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "assets/images/person_icon.svg",
-              colorFilter:
-                  _selectedIndex == 4 ? selectedColor : unSelectedColor,
-            ),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        showSelectedLabels: false,
-        onTap: _onItemTapped,
-      ),
+        ),
+        AuthBuilder(authController: authController),
+      ],
     );
   }
 }
