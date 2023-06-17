@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/controller/auth_controller.dart';
+
 import 'package:shoes_shop_app/views/home/my_wish_list.dart';
 import 'package:shoes_shop_app/views/home/notification_page.dart';
 
@@ -9,8 +13,21 @@ class HeaderHomePage extends StatelessWidget {
     super.key,
   });
 
+  String greeting() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Morning';
+    }
+    if (hour < 17) {
+      return 'Afternoon';
+    }
+    return 'Evening';
+  }
+
   @override
   Widget build(BuildContext context) {
+    late AuthController authController = Get.find();
+    String greetingString = "Good ${greeting()}";
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -18,24 +35,39 @@ class HeaderHomePage extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"),
-                  radius: 24,
+                GetBuilder<AuthController>(
+                  builder: (_) => CircleAvatar(
+                    backgroundImage: authController.getAuthorize() &&
+                            authController.getUserInfo().avatar != ""
+                        ? NetworkImage(
+                            authController.getUserInfo().avatar,
+                          )
+                        : const AssetImage(
+                            "assets/images/anonymous_user_avatar.png",
+                          ) as ImageProvider,
+                    radius: 24,
+                    backgroundColor: AppColors.primaryColor,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Good Morning",
+                      greetingString,
                       style: GoogleFonts.poppins(fontSize: 14),
                     ),
-                    Text(
-                      "Andrew AinSley",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    GetBuilder<AuthController>(
+                      builder: (_) => Text(
+                        authController.getAuthorize() &&
+                                (authController.getUserInfo().firstName != "" ||
+                                    authController.getUserInfo().lastName != "")
+                            ? "${authController.getUserInfo().firstName} ${authController.getUserInfo().lastName}"
+                            : "Anonymous",
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],

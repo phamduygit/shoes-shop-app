@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoes_shop_app/component/quantity.dart';
+import 'package:shoes_shop_app/components/quantity.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
 class OrderCard extends StatelessWidget {

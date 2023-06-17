@@ -4,14 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:shoes_shop_app/views/auth/apis/auth_service.dart';
-import 'package:shoes_shop_app/views/auth/components/auth_button.dart';
+import 'package:shoes_shop_app/service/auth_service.dart';
+import 'package:shoes_shop_app/components/auth_button.dart';
 import 'package:shoes_shop_app/views/auth/components/auth_dialog.dart';
 import 'package:shoes_shop_app/views/auth/components/auth_footer_component.dart';
-import 'package:shoes_shop_app/views/auth/components/email_text_field.dart';
-import 'package:shoes_shop_app/views/auth/components/formal_text_field.dart';
+import 'package:shoes_shop_app/components/email_text_field.dart';
+import 'package:shoes_shop_app/components/formal_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/google_button.dart';
-import 'package:shoes_shop_app/views/auth/components/password_text_field.dart';
+import 'package:shoes_shop_app/components/password_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/welcome_string.dart';
 import 'package:shoes_shop_app/views/auth/utils/validate.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
@@ -151,6 +151,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           label: "Email Address",
                           hintText: "xyz@gmail.com",
                           emailController: emailController,
+                          enable: true,
                         ),
                         const SizedBox(height: 30),
                         PasswordTextField(
@@ -165,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           passwordController: confirmPasswordController,
                         ),
                         const SizedBox(height: 40),
-                        AuthButton(
+                        SingleButton(
                           title: "Sign Up",
                           onPressed: handleClickSignUpButton,
                         ),

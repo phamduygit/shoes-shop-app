@@ -33,11 +33,10 @@ class SearchBar extends StatelessWidget {
           filled: true,
           fillColor: AppColors.backgroundTextField,
           suffixIcon: GestureDetector(
-            child: SvgPicture.asset(
-              "assets/images/filter_icon.svg",
-              width: 5,
-              height: 5,
-              fit: BoxFit.none,
+            child: Image.asset(
+              "assets/images/filter_icon.png",
+              width: 24,
+              height: 24,
               // colorFilter: const ColorFilter.mode(AppColors.secondaryColor, BlendMode.srcIn),
             ),
             onTap: () {},

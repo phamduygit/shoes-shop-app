@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:shoes_shop_app/component/auth_builder.dart';
+import 'package:shoes_shop_app/components/auth_builder.dart';
+import 'package:shoes_shop_app/components/loading_builder.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
+import 'package:shoes_shop_app/service/client_service.dart';
+import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/views/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/home/home_page.dart';
@@ -38,14 +41,33 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     });
   }
 
+  void initAuthenticate() async {
+    loadingController.load();
+    final response = await ClientService().isValidToken();
+
+    if (response != null) {
+      authController.setAuthorize(response.data["valid"]);
+    }
+
+    final userResponse = await UserService().getUserInfo();
+
+    if (userResponse != null) {
+      authController.setUserInfo(userResponse);
+    }
+
+    loadingController.loadingComplete();
+  }
+
+   @override
+  void didUpdateWidget(covariant AppNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    initAuthenticate();
+  }
+
   @override
   void initState() {
     super.initState();
-    if (authController.isNotAuthorize()) {
-      // show progress dialog
-
-      // refresh token
-    }
+    initAuthenticate();
   }
 
   static const selectedColor =
@@ -109,6 +131,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
           ),
         ),
         AuthBuilder(authController: authController),
+        LoadingBuilder(loadingController: loadingController),
       ],
     );
   }

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shoes_shop_app/controller/auth_controller.dart';
+import 'package:shoes_shop_app/entity/user.dart';
+import 'package:shoes_shop_app/views/auth/login_page.dart';
+import 'package:shoes_shop_app/views/profile/components/logout_row.dart';
+import 'package:shoes_shop_app/views/profile/components/setting_row.dart';
 import 'package:shoes_shop_app/views/profile/edit_profile_page.dart';
 
 import '../../constant/colors.dart';
@@ -8,8 +14,37 @@ import '../../constant/colors.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  void onPressEditProfileRow() {
+    Get.to(
+      const EditProfilePage(),
+    );
+  }
+
+  Future<void> onPressLogoutRow() async {
+    // Clear access token and refresh token
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Remove accessToken key
+    await prefs.remove('accessToken');
+
+    // Remove refreshToken key
+    await prefs.remove('refreshToken');
+
+    final AuthController authController = Get.find();
+
+    authController.setAuthorize(false);
+
+    authController.setUserInfo(User());
+
+    // Go to login page
+    Get.to(
+      const LoginPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -33,43 +68,65 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(height: 15),
                     Column(
                       children: [
-                        const CircleAvatar(
-                          radius: 60.0,
-                          backgroundImage: NetworkImage(
-                              "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3087&q=80"),
-                          backgroundColor: Colors.transparent,
-                        ),
-                        Text(
-                          "Andrew Ainsley",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                        GetBuilder<AuthController>(
+                          builder: (_) => CircleAvatar(
+                            radius: authController.getAuthorize() ? 60.0 : 60.0,
+                            backgroundImage: authController.getAuthorize() &&
+                                    authController.getUserInfo().avatar != ""
+                                ? NetworkImage(
+                                    authController.getUserInfo().avatar,
+                                  )
+                                : const AssetImage(
+                                    "assets/images/anonymous_user_avatar.png",
+                                  ) as ImageProvider,
+                            backgroundColor: Colors.transparent,
                           ),
                         ),
-                        Text(
-                          "0342569003",
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        GetBuilder<AuthController>(
+                          builder: (_) => Text(
+                            authController.getAuthorize() &&
+                                    (authController.getUserInfo().firstName !=
+                                            "" ||
+                                        authController.getUserInfo().lastName !=
+                                            "")
+                                ? "${authController.getUserInfo().firstName} ${authController.getUserInfo().lastName}"
+                                : "Anonymous",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        GetBuilder<AuthController>(
+                          builder: (_) => Text(
+                            authController.getAuthorize() &&
+                                    (authController.getUserInfo().phoneNumber !=
+                                        "")
+                                ? authController.getUserInfo().phoneNumber
+                                : "Empty",
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const Divider(),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => const EditProfilePage());
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 10,
-                        ),
-                        child: SettingRow(
+                    Column(
+                      children: [
+                        SettingRow(
                           startIcon: "assets/images/person_icon.png",
                           name: "Edit Profile",
+                          onTap: onPressEditProfileRow,
                         ),
-                      ),
+                        LogoutRow(
+                          onTap: onPressLogoutRow,
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -78,46 +135,6 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class SettingRow extends StatelessWidget {
-  const SettingRow({
-    super.key,
-    required this.startIcon,
-    required this.name,
-  });
-
-  final String startIcon;
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Image.asset(
-          startIcon,
-          width: 16,
-          height: 16,
-        ),
-        const SizedBox(
-          width: 15,
-        ),
-        Expanded(
-          child: Text(
-            name,
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-            ),
-          ),
-        ),
-        Image.asset(
-          "assets/images/chevron_right.png",
-          width: 12,
-          height: 18,
-        ),
-      ],
     );
   }
 }

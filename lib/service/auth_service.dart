@@ -9,8 +9,7 @@ class AuthService {
 
   Future<dynamic> signIn(String email, dynamic password) async {
     try {
-      var response =
-          await ClientService().sendPostRequest("/api/v1/auth/login", {
+      var response = await ClientService().post("/api/v1/auth/login", {
         "email": email,
         "password": password,
       });
@@ -22,8 +21,7 @@ class AuthService {
 
   Future<dynamic> signUp(String lastName, String email, String password) async {
     try {
-      var response = await ClientService().sendPostRequest(
-          "/api/v1/auth/login", {
+      var response = await ClientService().post("/api/v1/auth/login", {
         "email": email,
         "password": password,
         "lastName": lastName,
@@ -39,8 +37,8 @@ class AuthService {
     try {
       var googleResponse = await googleSignIn.signIn();
       if (googleResponse != null) {
-        var response = await ClientService()
-            .sendPostRequest("/api/v1/auth/login-with-google", {
+        var response =
+            await ClientService().post("/api/v1/auth/login-with-google", {
           "email": googleResponse.email,
         });
         return response;

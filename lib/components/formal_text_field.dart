@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-
 class FormalTextField extends StatelessWidget {
   const FormalTextField({
-    super.key, required this.label, required this.hintText, required this.controller,
+    super.key,
+    required this.label,
+    required this.hintText,
+    required this.controller,
   });
 
   final String label;
   final String hintText;
   final TextEditingController controller;
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,9 +34,11 @@ class FormalTextField extends StatelessWidget {
             cursorColor: AppColors.secondaryTextColor,
             style: GoogleFonts.poppins(
               color: AppColors.secondaryTextColor,
+              fontSize: 14,
             ),
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
               border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(
@@ -44,7 +48,7 @@ class FormalTextField extends StatelessWidget {
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
                 color: AppColors.hintTextColor,
-                fontSize: 13,
+                fontSize: 14,
               ),
               filled: true,
               fillColor: AppColors.backgroundTextField,

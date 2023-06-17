@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shoes_shop_app/views/auth/components/auth_button.dart';
-import 'package:shoes_shop_app/views/auth/components/email_text_field.dart';
+import 'package:shoes_shop_app/components/auth_button.dart';
+import 'package:shoes_shop_app/components/email_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/welcome_string.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
@@ -60,9 +60,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   emailController: myController,
                   label: "Email Address",
                   hintText: "xyz@gmail.com",
+                  enable: true,
                 ),
                 const SizedBox(height: 40),
-                AuthButton(
+                SingleButton(
                   title: "Reset Password",
                   onPressed: () {
                     showDialog(
@@ -87,5 +88,3 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 }
-
-

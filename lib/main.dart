@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:shoes_shop_app/app_navigation_bar.dart';
+import 'package:shoes_shop_app/views/app_navigation_bar.dart';
 import 'package:shoes_shop_app/constant/app_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -22,10 +22,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     return GetMaterialApp(
       title: 'Shoes App',
       debugShowCheckedModeBanner: false,

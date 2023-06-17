@@ -167,10 +167,10 @@ class BoderSideSearchBar extends StatelessWidget {
           filled: true,
           fillColor: AppColors.backgroundTextField,
           suffixIcon: GestureDetector(
-            child: SvgPicture.asset(
-              "assets/images/filter_icon.svg",
-              width: 5,
-              height: 5,
+            child: Image.asset(
+              "assets/images/filter_icon.png",
+              width: 24,
+              height: 24,
               fit: BoxFit.none,
               // colorFilter: const ColorFilter.mode(AppColors.secondaryColor, BlendMode.srcIn),
             ),

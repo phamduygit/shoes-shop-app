@@ -7,13 +7,15 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
-import 'package:shoes_shop_app/views/auth/apis/auth_service.dart';
-import 'package:shoes_shop_app/views/auth/components/auth_button.dart';
+import 'package:shoes_shop_app/service/auth_service.dart';
+import 'package:shoes_shop_app/service/client_service.dart';
+import 'package:shoes_shop_app/service/user_service.dart';
+import 'package:shoes_shop_app/components/auth_button.dart';
 import 'package:shoes_shop_app/views/auth/components/auth_footer_component.dart';
-import 'package:shoes_shop_app/views/auth/components/email_text_field.dart';
+import 'package:shoes_shop_app/components/email_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/forgot_password_button.dart';
 import 'package:shoes_shop_app/views/auth/components/google_button.dart';
-import 'package:shoes_shop_app/views/auth/components/password_text_field.dart';
+import 'package:shoes_shop_app/components/password_text_field.dart';
 import 'package:shoes_shop_app/views/auth/forgot_password.dart';
 import 'package:shoes_shop_app/views/auth/sign_up_page.dart';
 import 'package:shoes_shop_app/views/auth/utils/validate.dart';
@@ -51,7 +53,17 @@ class _LoginPageState extends State<LoginPage> {
       // Save refresh token to local storage
       await prefs.setString('refreshToken', data["refreshToken"]);
 
-      authController.setAuthorize(true);
+      final validTokenResponse = await ClientService().isValidToken();
+
+      if (response != null) {
+        authController.setAuthorize(validTokenResponse.data["valid"]);
+      }
+
+      final userResponse = await UserService().getUserInfo();
+
+      if (userResponse != null) {
+        authController.setUserInfo(userResponse);
+      }
       if (context.mounted) {
         Navigator.of(context).pop(true);
       }
@@ -139,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
             leading: IconButton(
               color: AppColors.secondaryColor,
               onPressed: () {
+                authController.setShowingDialog(false);
                 Navigator.of(context).pop(true);
               },
               splashRadius: 24,
@@ -169,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                           label: "Email Address",
                           hintText: "xyz@gmail.com",
                           emailController: emailController,
+                          enable: true,
                         ),
                         const SizedBox(height: 30),
                         PasswordTextField(
@@ -189,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        AuthButton(
+                        SingleButton(
                           title: "Sign In",
                           onPressed: () async {
                             singIn(buildContext: context);

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-class AuthButton extends StatelessWidget {
-  const AuthButton({
-    super.key, required this.title, required this.onPressed,
+class SingleButton extends StatelessWidget {
+  const SingleButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
   });
   final String title;
   final VoidCallback onPressed;

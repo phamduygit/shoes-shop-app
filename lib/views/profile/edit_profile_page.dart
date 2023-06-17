@@ -5,14 +5,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shoes_shop_app/component/auth_builder.dart';
-import 'package:shoes_shop_app/component/loading_builder.dart';
+import 'package:shoes_shop_app/components/auth_builder.dart';
+import 'package:shoes_shop_app/components/loading_builder.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
+import 'package:shoes_shop_app/controller/user_controller.dart';
 import 'package:shoes_shop_app/entity/auth_response.dart';
-import 'package:shoes_shop_app/views/auth/components/email_text_field.dart';
-import 'package:shoes_shop_app/views/auth/components/formal_text_field.dart';
+import 'package:shoes_shop_app/components/email_text_field.dart';
+import 'package:shoes_shop_app/components/formal_text_field.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/components/auth_button.dart';
+import 'package:shoes_shop_app/entity/user.dart';
+import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/views/profile/apis/profile_service.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -23,15 +27,15 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   final LoadingController loadingController = Get.find();
   final AuthController authController = Get.find();
 
-  String userAvatar =
-      "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3087&q=80";
+  String userAvatar = "";
 
   Future<void> handlePressEditImageButton() async {
     try {
@@ -63,6 +67,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
       debugPrint("Error: ${err.toString()}");
       loadingController.loadingComplete();
     }
+  }
+
+  Future<void> handlePressUpdateButton() async {
+    loadingController.load();
+    final User user = User(
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        phoneNumber: phoneNumberController.text,
+        avatar: userAvatar);
+    final User userResponse = await UserService().updateUserInfo(user);
+    firstNameController.text = userResponse.firstName;
+    lastNameController.text = userResponse.lastName;
+    phoneNumberController.text = userResponse.phoneNumber;
+    emailController.text = userResponse.email;
+    setState(() {
+      userAvatar = userResponse.avatar;
+    });
+    authController.setUserInfo(userResponse);
+    loadingController.loadingComplete();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.text = authController.getUserInfo().email;
+    firstNameController.text = authController.getUserInfo().firstName;
+    lastNameController.text = authController.getUserInfo().lastName;
+    phoneNumberController.text = authController.getUserInfo().phoneNumber;
+    userAvatar = authController.getUserInfo().avatar;
   }
 
   @override
@@ -107,10 +140,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             children: [
                               Stack(
                                 children: [
-                                  CircleAvatar(
-                                    radius: 60.0,
-                                    backgroundImage: NetworkImage(userAvatar),
-                                    backgroundColor: Colors.transparent,
+                                  GetBuilder<AuthController>(
+                                    builder: (_) => CircleAvatar(
+                                      radius: authController.getAuthorize()
+                                          ? 60.0
+                                          : 60.0,
+                                      backgroundImage: userAvatar == ""
+                                          ? authController.getAuthorize() &&
+                                                  authController
+                                                          .getUserInfo()
+                                                          .avatar !=
+                                                      ""
+                                              ? NetworkImage(
+                                                  authController
+                                                      .getUserInfo()
+                                                      .avatar,
+                                                )
+                                              : const AssetImage(
+                                                  "assets/images/anonymous_user_avatar.png",
+                                                ) as ImageProvider
+                                          : NetworkImage(userAvatar),
+                                      backgroundColor: Colors.transparent,
+                                    ),
                                   ),
                                   Positioned(
                                     bottom: 5,
@@ -147,29 +198,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           FormalTextField(
-                            label: "Name",
+                            label: "First Name",
                             hintText: "Peter",
-                            controller: nameController,
+                            controller: firstNameController,
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
+                          FormalTextField(
+                            label: "Last Name",
+                            hintText: "Haland",
+                            controller: lastNameController,
+                          ),
+                          const SizedBox(height: 20),
                           EmailTextField(
                             label: "Email Address",
                             hintText: "xyz@gmail.com",
                             emailController: emailController,
+                            enable: false,
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           FormalTextField(
                             label: "Phone number",
                             hintText: "012345678",
-                            controller: nameController,
+                            controller: phoneNumberController,
                           ),
-                          const SizedBox(height: 30),
                         ],
                       ),
                     ),
                   ),
+                  SingleButton(
+                    title: "Update",
+                    onPressed: handlePressUpdateButton,
+                  )
                 ],
               ),
             ),

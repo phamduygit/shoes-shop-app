@@ -41,8 +41,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             obscureText: isSecure,
             style: GoogleFonts.poppins(
               color: AppColors.secondaryTextColor,
+              fontSize: 14,
             ),
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
               border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(
@@ -52,7 +54,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               hintText: widget.hintText,
               hintStyle: GoogleFonts.poppins(
                 color: AppColors.hintTextColor,
-                fontSize: 13,
+                fontSize: 14,
               ),
               filled: true,
               fillColor: AppColors.backgroundTextField,

@@ -11,26 +11,96 @@ class ClientService {
   var dio = Dio();
   var baseUrl = Network.getBaseUrl();
 
-  Future<dynamic> sendPostRequest(String path, Object? object) async {
+  Future<dynamic> post(String path, Object? object) async {
     // Update path
     String url = baseUrl + path;
     Response response = await dio.post(url, data: object);
     return response;
   }
 
-  Future<dynamic> sendPostRequstWithAuthorize(
-      String path, Object? object) async {
-    // Obtain shared preferences.
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Get access token to local storage
-    final String? accessToken = prefs.getString('accessToken');
+  Future<dynamic> postWithAuthorize(String path, Object? object) async {
+    try {
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Get access token to local storage
+      final String? accessToken = prefs.getString('accessToken');
+      // Update path
+      String url = baseUrl + path;
+
+      if (accessToken != null) {
+        dio.options.headers["authorization"] = "Bearer $accessToken";
+        Response response = await dio.post(url, data: object);
+        return response;
+      }
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response!.statusCode == HttpStatus.unauthorized) {
+          await refreshToken();
+          return postWithAuthorize(path, object);
+        }
+      }
+    }
+  }
+
+  Future<dynamic> get(String path) async {
     // Update path
     String url = baseUrl + path;
+    Response response = await dio.get(url);
+    return response;
+  }
 
-    if (accessToken != null) {
-      dio.options.headers["authorization"] = "Bearer $accessToken";
-      Response response = await dio.post(url, data: object);
-      return response;
+  Future<dynamic> getWithAuthorize(String path) async {
+    try {
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Get access token to local storage
+      final String? accessToken = prefs.getString('accessToken');
+      // Update path
+      String url = baseUrl + path;
+
+      if (accessToken != null) {
+        dio.options.headers["authorization"] = "Bearer $accessToken";
+        Response response = await dio.get(url);
+        return response;
+      }
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response!.statusCode == HttpStatus.unauthorized) {
+          await refreshToken();
+          return getWithAuthorize(path);
+        }
+      }
+    }
+  }
+
+  Future<dynamic> put(String path, Object? object) async {
+    // Update path
+    String url = baseUrl + path;
+    Response response = await dio.put(url, data: object);
+    return response;
+  }
+  
+  Future<dynamic> putWithAuthorize(String path, Object? object) async {
+    try {
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Get access token to local storage
+      final String? accessToken = prefs.getString('accessToken');
+      // Update path
+      String url = baseUrl + path;
+
+      if (accessToken != null) {
+        dio.options.headers["authorization"] = "Bearer $accessToken";
+        Response response = await dio.put(url, data: object);
+        return response;
+      }
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response!.statusCode == HttpStatus.unauthorized) {
+          await refreshToken();
+          return postWithAuthorize(path, object);
+        }
+      }
     }
   }
 
@@ -69,11 +139,6 @@ class ClientService {
     }
   }
 
-  Future<dynamic> sendGetRequest(String path) async {
-    Response response = await dio.get(path);
-    return response;
-  }
-
   Future<dynamic> refreshToken() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -93,5 +158,10 @@ class ClientService {
     } catch (e) {
       debugPrint('error: $e');
     }
+  }
+
+  Future<dynamic> isValidToken() async {
+    var resposne = await getWithAuthorize("/api/v1/user/check-token");
+    return resposne;
   }
 }

@@ -4,13 +4,18 @@ import 'package:shoes_shop_app/constant/colors.dart';
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
-    super.key, required this.label, required this.hintText, required this.emailController,
+    super.key,
+    required this.label,
+    required this.hintText,
+    required this.emailController,
+    required this.enable,
   });
 
   final String label;
   final String hintText;
   final TextEditingController emailController;
-  
+  final bool enable;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,13 +32,17 @@ class EmailTextField extends StatelessWidget {
         SizedBox(
           height: 50,
           child: TextField(
+            enabled: enable,
             controller: emailController,
             cursorColor: AppColors.secondaryTextColor,
             style: GoogleFonts.poppins(
               color: AppColors.secondaryTextColor,
+              fontSize: 14,
             ),
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 0.0, horizontal: 12.0),
               border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(
@@ -43,7 +52,7 @@ class EmailTextField extends StatelessWidget {
               hintText: hintText,
               hintStyle: GoogleFonts.poppins(
                 color: AppColors.hintTextColor,
-                fontSize: 13,
+                fontSize: 14,
               ),
               filled: true,
               fillColor: AppColors.backgroundTextField,
