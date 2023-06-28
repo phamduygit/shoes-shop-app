@@ -45,7 +45,7 @@ class BranchDetailPage extends StatelessWidget {
       body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
-          child: ProductDisplayList(),
+          // child: ProductDisplayList(),
         ),
       ),
     );

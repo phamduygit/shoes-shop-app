@@ -37,8 +37,7 @@ class HeaderHomePage extends StatelessWidget {
               children: [
                 GetBuilder<AuthController>(
                   builder: (_) => CircleAvatar(
-                    backgroundImage: authController.getAuthorize() &&
-                            authController.getUserInfo().avatar != ""
+                    backgroundImage: authController.getUserInfo().avatar != ""
                         ? NetworkImage(
                             authController.getUserInfo().avatar,
                           )
@@ -59,9 +58,8 @@ class HeaderHomePage extends StatelessWidget {
                     ),
                     GetBuilder<AuthController>(
                       builder: (_) => Text(
-                        authController.getAuthorize() &&
-                                (authController.getUserInfo().firstName != "" ||
-                                    authController.getUserInfo().lastName != "")
+                        (authController.getUserInfo().firstName != "" ||
+                                authController.getUserInfo().lastName != "")
                             ? "${authController.getUserInfo().firstName} ${authController.getUserInfo().lastName}"
                             : "Anonymous",
                         style: GoogleFonts.poppins(

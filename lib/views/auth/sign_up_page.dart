@@ -13,7 +13,7 @@ import 'package:shoes_shop_app/components/formal_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/google_button.dart';
 import 'package:shoes_shop_app/components/password_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/welcome_string.dart';
-import 'package:shoes_shop_app/views/auth/utils/validate.dart';
+import 'package:shoes_shop_app/utils/validate.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
 class SignUpPage extends StatefulWidget {

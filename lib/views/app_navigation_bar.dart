@@ -41,33 +41,9 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     });
   }
 
-  void initAuthenticate() async {
-    loadingController.load();
-    final response = await ClientService().isValidToken();
-
-    if (response != null) {
-      authController.setAuthorize(response.data["valid"]);
-    }
-
-    final userResponse = await UserService().getUserInfo();
-
-    if (userResponse != null) {
-      authController.setUserInfo(userResponse);
-    }
-
-    loadingController.loadingComplete();
-  }
-
-   @override
-  void didUpdateWidget(covariant AppNavigationBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    initAuthenticate();
-  }
-
   @override
   void initState() {
     super.initState();
-    initAuthenticate();
   }
 
   static const selectedColor =

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_shop_app/model/brand.dart';
 import 'package:shoes_shop_app/views/home/components/branch_card.dart';
 
-class BranchCategories extends StatelessWidget {
-  const BranchCategories({
-    super.key,
-  });
+class BrandCategory extends StatelessWidget {
+  const BrandCategory({super.key, required this.listBrand});
+
+  final List<Brand> listBrand;
 
   @override
   Widget build(BuildContext context) {
@@ -17,40 +18,12 @@ class BranchCategories extends StatelessWidget {
         crossAxisCount: 4,
         childAspectRatio: 2 / 3,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          BranchCard(
-            filePathToImage: "assets/images/nike_icon.svg",
-            name: "Nike",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/adidas_icon.svg",
-            name: "Adidas",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/puma_icon.svg",
-            name: "Puma",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/asics_icon.svg",
-            name: "Asics",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/reebok_icon.svg",
-            name: "Reebok",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/new_balance_icon.svg",
-            name: "New",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/converse_icon.svg",
-            name: "Converse",
-          ),
-          BranchCard(
-            filePathToImage: "assets/images/more_icon.svg",
-            name: "More",
-          ),
-        ],
+        children: List.generate(listBrand.length, (index) {
+          return BranchCard(
+            filePathToImage: listBrand[index].image,
+            name: listBrand[index].name,
+          );
+        }),
       ),
     );
   }

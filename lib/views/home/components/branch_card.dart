@@ -30,7 +30,7 @@ class BranchCard extends StatelessWidget {
             decoration: const BoxDecoration(
                 color: AppColors.backgroundTextField, shape: BoxShape.circle),
             // TO DO: Change to png
-            child: SvgPicture.asset(
+            child: SvgPicture.network(
               filePathToImage,
               width: 32,
               height: 32,
@@ -38,7 +38,11 @@ class BranchCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Text(name, style: GoogleFonts.poppins(fontSize: 14))
+        Text(
+          name,
+          style: GoogleFonts.poppins(fontSize: 14),
+          overflow: TextOverflow.ellipsis,
+        )
       ],
     );
   }

@@ -9,13 +9,12 @@ import 'package:shoes_shop_app/components/auth_builder.dart';
 import 'package:shoes_shop_app/components/loading_builder.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
-import 'package:shoes_shop_app/controller/user_controller.dart';
-import 'package:shoes_shop_app/entity/auth_response.dart';
+import 'package:shoes_shop_app/model/auth_response.dart';
 import 'package:shoes_shop_app/components/email_text_field.dart';
 import 'package:shoes_shop_app/components/formal_text_field.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/components/auth_button.dart';
-import 'package:shoes_shop_app/entity/user.dart';
+import 'package:shoes_shop_app/model/user.dart';
 import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/views/profile/apis/profile_service.dart';
 

@@ -1,14 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:shoes_shop_app/constant/network.dart';
-import 'package:shoes_shop_app/entity/user.dart';
+import 'package:shoes_shop_app/model/user.dart';
 import 'package:shoes_shop_app/service/client_service.dart';
 
 class UserService {
-  var dio = Dio();
   var baseUrl = Network.getBaseUrl();
 
-  Future<dynamic> getUserInfo() async {
-    var response = await ClientService().getWithAuthorize("/api/v1/user");
+  Future<User> getUserInfo() async {
+    var response = await ClientService().get("/api/v1/user");
     if (response != null) {
       var data = response.data;
       User user = User(
@@ -23,7 +21,7 @@ class UserService {
   }
 
   Future<dynamic> updateUserInfo(User user) async {
-    var response = await ClientService().putWithAuthorize("/api/v1/user", {
+    var response = await ClientService().put("/api/v1/user", {
       "firstName": user.firstName,
       "lastName": user.lastName,
       "avatar": user.avatar,

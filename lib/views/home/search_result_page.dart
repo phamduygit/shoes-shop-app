@@ -60,14 +60,14 @@ class SearchResultpage extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: SingleChildScrollView(
-                  child: ProductDisplayList(),
-                ),
-              ),
-            )
+            // const Expanded(
+            //   child: Padding(
+            //     padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            //     child: SingleChildScrollView(
+            //       child: ProductDisplayList(),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

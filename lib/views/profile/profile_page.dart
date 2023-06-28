@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
-import 'package:shoes_shop_app/entity/user.dart';
+import 'package:shoes_shop_app/model/user.dart';
 import 'package:shoes_shop_app/views/auth/login_page.dart';
 import 'package:shoes_shop_app/views/profile/components/logout_row.dart';
 import 'package:shoes_shop_app/views/profile/components/setting_row.dart';

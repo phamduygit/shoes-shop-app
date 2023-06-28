@@ -18,7 +18,7 @@ import 'package:shoes_shop_app/views/auth/components/google_button.dart';
 import 'package:shoes_shop_app/components/password_text_field.dart';
 import 'package:shoes_shop_app/views/auth/forgot_password.dart';
 import 'package:shoes_shop_app/views/auth/sign_up_page.dart';
-import 'package:shoes_shop_app/views/auth/utils/validate.dart';
+import 'package:shoes_shop_app/utils/validate.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
 import 'components/auth_dialog.dart';
@@ -52,12 +52,6 @@ class _LoginPageState extends State<LoginPage> {
 
       // Save refresh token to local storage
       await prefs.setString('refreshToken', data["refreshToken"]);
-
-      final validTokenResponse = await ClientService().isValidToken();
-
-      if (response != null) {
-        authController.setAuthorize(validTokenResponse.data["valid"]);
-      }
 
       final userResponse = await UserService().getUserInfo();
 

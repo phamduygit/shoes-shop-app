@@ -44,12 +44,12 @@ class MostPopularPage extends StatelessWidget {
                 "Converse"
               ],
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: SingleChildScrollView(child: ProductDisplayList()),
-              ),
-            )
+            // Expanded(
+            //   child: Padding(
+            //     padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            //     child: SingleChildScrollView(child: ProductDisplayList()),
+            //   ),
+            // )
           ],
         ),
       ),
