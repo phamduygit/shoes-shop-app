@@ -22,11 +22,7 @@ class ProductDisplayList extends StatelessWidget {
       children: List.generate(
         shoes.length,
         (index) => ShoesCard(
-          imageUrl: shoes[index].coverImage,
-          name: shoes[index].name,
-          rating: shoes[index].rating,
-          sold: shoes[index].sold,
-          price: shoes[index].price,
+          shoes: shoes[index],
         ),
       ),
     );

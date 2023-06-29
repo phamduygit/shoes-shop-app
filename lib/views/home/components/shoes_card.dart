@@ -2,23 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/shoes.dart';
 import 'package:shoes_shop_app/views/home/product_detail_page.dart';
 
 class ShoesCard extends StatelessWidget {
   const ShoesCard({
-    super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.rating,
-    required this.sold,
-    required this.price,
+    super.key, required this.shoes,
+    
   });
 
-  final String imageUrl;
-  final String name;
-  final double rating;
-  final int sold;
-  final double price;
+  final Shoes shoes;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +34,7 @@ class ShoesCard extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 1 / 1,
                     child: Image.network(
-                      imageUrl,
+                      shoes.coverImage,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -76,7 +69,7 @@ class ShoesCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              name,
+              shoes.name,
               style: GoogleFonts.poppins(
                   fontSize: 16, fontWeight: FontWeight.w600),
               overflow: TextOverflow.ellipsis,
@@ -87,7 +80,7 @@ class ShoesCard extends StatelessWidget {
               children: [
                 const Icon(Icons.star_rounded),
                 const SizedBox(width: 5),
-                Text("$rating"),
+                Text("${shoes.rating}"),
                 const SizedBox(width: 5),
                 const Text("|"),
                 const SizedBox(width: 5),
@@ -100,7 +93,7 @@ class ShoesCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       color: AppColors.backgroundTextField),
                   child: Text(
-                    "$sold sold",
+                    "${shoes.sold} sold",
                     style: GoogleFonts.poppins(
                       fontSize: 12,
                     ),
@@ -110,7 +103,7 @@ class ShoesCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "\$$price",
+              "\$${shoes.price}",
               style: GoogleFonts.poppins(
                   fontSize: 18, fontWeight: FontWeight.w500),
             )

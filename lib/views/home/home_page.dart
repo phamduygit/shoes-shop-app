@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/model/brand.dart';
@@ -7,12 +10,14 @@ import 'package:shoes_shop_app/model/promote.dart';
 import 'package:shoes_shop_app/model/shoes.dart';
 import 'package:shoes_shop_app/model/user.dart';
 import 'package:shoes_shop_app/service/home_service.dart';
+import 'package:shoes_shop_app/service/shoes_service.dart';
 import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/utils/string_covert.dart';
 import 'package:shoes_shop_app/views/home/components/branch_categories.dart';
 import 'package:shoes_shop_app/views/home/components/header_home_page.dart';
 import 'package:shoes_shop_app/views/home/components/product_display_list.dart';
 import 'package:shoes_shop_app/views/home/components/search_bar.dart';
+import 'package:shoes_shop_app/views/home/components/shoes_card.dart';
 import 'package:shoes_shop_app/views/home/components/special_offers_card.dart';
 import 'package:shoes_shop_app/views/home/components/title_and_button.dart';
 import 'package:shoes_shop_app/views/home/most_popular_page.dart';
@@ -33,27 +38,53 @@ class _HomePageState extends State<HomePage> {
   List<Brand> brandData = [];
   Promote promote = Promote(startDate: DateTime.now(), endDate: DateTime.now());
   List<Shoes> shoesData = [];
+  int currentPage = 1;
+  int totalPage = 0;
   RxBool isLoading = false.obs;
+  RxBool isNeedFetch = true.obs;
+
+  final scrollController = ScrollController();
+
+  final PagingController<int, Shoes> _pagingController =
+      PagingController(firstPageKey: 0);
 
   Future<void> init() async {
     isLoading.value = false;
     List response = await Future.wait([
       HomeService().getFirstPromote(),
       HomeService().getAllBrand(),
-      HomeService().getAllShoes(),
+      ShoesService().getAllShoes(),
       UserService().getUserInfo(),
     ]);
     promote = response[0] as Promote;
     brandData = response[1] as List<Brand>;
-    shoesData = response[2] as List<Shoes>;
+    shoesData = response[2]["listShoes"] as List<Shoes>;
+    totalPage = response[2]["totalPages"];
     authController.setUserInfo(response[3]);
     isLoading.value = true;
+  }
+
+  Future<void> fetchPage(int pageKey) async {
+    if (pageKey < totalPage) {
+      var response = await ShoesService().filterListShoes(pageKey);
+      shoesData = shoesData + response["listShoes"];
+      currentPage = currentPage + 1;
+    }
   }
 
   @override
   void initState() {
     super.initState();
     init();
+    scrollController.addListener(() async {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        isNeedFetch.value = true;
+        await fetchPage(currentPage);
+        await Future.delayed(const Duration(seconds: 1));
+        isNeedFetch.value = false;
+      }
+    });
   }
 
   @override
@@ -63,6 +94,7 @@ class _HomePageState extends State<HomePage> {
         () => SafeArea(
           child: isLoading.value
               ? SingleChildScrollView(
+                  controller: scrollController,
                   child: Column(
                     children: [
                       const HeaderHomePage(),
@@ -128,18 +160,31 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: ProductDisplayList(
-                          shoes: shoesData,
-                        ),
-                      )
+                        child: ProductDisplayList(shoes: shoesData),
+                      ),
+                      isNeedFetch.value
+                          ? Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                LoadingAnimationWidget.staggeredDotsWave(
+                                  color: Colors.red,
+                                  size: 48,
+                                ),
+                              ],
+                            )
+                          : Container(),
+                      isNeedFetch.value
+                          ? Container()
+                          : const SizedBox(height: 68),
                     ],
                   ),
                 )
               : Center(
                   child: LoadingAnimationWidget.staggeredDotsWave(
-                  color: Colors.red,
-                  size: 48,
-                )),
+                    color: Colors.red,
+                    size: 48,
+                  ),
+                ),
         ),
       ),
     );
