@@ -8,6 +8,7 @@ class AppColors {
   static const secondaryTextColor = Color(0xFF707B81);
   static const primaryTextColor = Color(0xFF2B2B2B);
   static const backgroundTextField = Color(0xFFF7F7F9);
+  static const bacdgroundText = Color.fromARGB(255, 218, 218, 218);
   static const hintTextColor = Color(0xFF6A6A6A);
   static const white = Colors.white;
   static const buttonColor = Color(0xFF0D6EFD);

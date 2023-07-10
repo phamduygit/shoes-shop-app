@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/model/user.dart';
 import 'package:shoes_shop_app/views/auth/login_page.dart';
+import 'package:shoes_shop_app/views/profile/address_page.dart';
 import 'package:shoes_shop_app/views/profile/components/logout_row.dart';
 import 'package:shoes_shop_app/views/profile/components/setting_row.dart';
 import 'package:shoes_shop_app/views/profile/edit_profile_page.dart';
@@ -17,6 +18,12 @@ class ProfilePage extends StatelessWidget {
   void onPressEditProfileRow() {
     Get.to(
       const EditProfilePage(),
+    );
+  }
+
+  void onPressAddressRow() {
+    Get.to(
+      const AddressPage(),
     );
   }
 
@@ -71,14 +78,14 @@ class ProfilePage extends StatelessWidget {
                         GetBuilder<AuthController>(
                           builder: (_) => CircleAvatar(
                             radius: authController.getAuthorize() ? 60.0 : 60.0,
-                            backgroundImage: authController.getAuthorize() &&
-                                    authController.getUserInfo().avatar != ""
-                                ? NetworkImage(
-                                    authController.getUserInfo().avatar,
-                                  )
-                                : const AssetImage(
-                                    "assets/images/anonymous_user_avatar.png",
-                                  ) as ImageProvider,
+                            backgroundImage:
+                                authController.getUserInfo().avatar != ""
+                                    ? NetworkImage(
+                                        authController.getUserInfo().avatar,
+                                      )
+                                    : const AssetImage(
+                                        "assets/images/anonymous_user_avatar.png",
+                                      ) as ImageProvider,
                             backgroundColor: Colors.transparent,
                           ),
                         ),
@@ -87,11 +94,8 @@ class ProfilePage extends StatelessWidget {
                         ),
                         GetBuilder<AuthController>(
                           builder: (_) => Text(
-                            authController.getAuthorize() &&
-                                    (authController.getUserInfo().firstName !=
-                                            "" ||
-                                        authController.getUserInfo().lastName !=
-                                            "")
+                            (authController.getUserInfo().firstName != "" ||
+                                    authController.getUserInfo().lastName != "")
                                 ? "${authController.getUserInfo().firstName} ${authController.getUserInfo().lastName}"
                                 : "Anonymous",
                             style: GoogleFonts.poppins(
@@ -102,9 +106,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                         GetBuilder<AuthController>(
                           builder: (_) => Text(
-                            authController.getAuthorize() &&
-                                    (authController.getUserInfo().phoneNumber !=
-                                        "")
+                            (authController.getUserInfo().phoneNumber != "")
                                 ? authController.getUserInfo().phoneNumber
                                 : "Empty",
                             style: GoogleFonts.poppins(
@@ -121,6 +123,36 @@ class ProfilePage extends StatelessWidget {
                         SettingRow(
                           startIcon: "assets/images/person_icon.png",
                           name: "Edit Profile",
+                          onTap: onPressEditProfileRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/address_icon.png",
+                          name: "Address",
+                          onTap: onPressAddressRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/notification_icon.png",
+                          name: "Notification",
+                          onTap: onPressEditProfileRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/payment_icon.png",
+                          name: "Payment",
+                          onTap: onPressEditProfileRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/security_icon.png",
+                          name: "Security",
+                          onTap: onPressEditProfileRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/help_icon.png",
+                          name: "Help center",
+                          onTap: onPressEditProfileRow,
+                        ),
+                        SettingRow(
+                          startIcon: "assets/images/share_icon.png",
+                          name: "Invite friend",
                           onTap: onPressEditProfileRow,
                         ),
                         LogoutRow(

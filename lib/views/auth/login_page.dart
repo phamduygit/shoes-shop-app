@@ -8,7 +8,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/service/auth_service.dart';
-import 'package:shoes_shop_app/service/client_service.dart';
 import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/components/auth_button.dart';
 import 'package:shoes_shop_app/views/auth/components/auth_footer_component.dart';
@@ -55,9 +54,9 @@ class _LoginPageState extends State<LoginPage> {
 
       final userResponse = await UserService().getUserInfo();
 
-      if (userResponse != null) {
-        authController.setUserInfo(userResponse);
-      }
+      authController.setUserInfo(userResponse);
+
+      // authController.setUserInfo(userResponse);
       if (context.mounted) {
         Navigator.of(context).pop(true);
       }
@@ -145,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
             leading: IconButton(
               color: AppColors.secondaryColor,
               onPressed: () {
-                authController.setShowingDialog(false);
+                // authController.setShowingDialog(false);
                 Navigator.of(context).pop(true);
               },
               splashRadius: 24,

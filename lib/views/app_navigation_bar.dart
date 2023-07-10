@@ -5,8 +5,6 @@ import 'package:shoes_shop_app/components/auth_builder.dart';
 import 'package:shoes_shop_app/components/loading_builder.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
-import 'package:shoes_shop_app/service/client_service.dart';
-import 'package:shoes_shop_app/service/user_service.dart';
 import 'package:shoes_shop_app/views/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/home/home_page.dart';

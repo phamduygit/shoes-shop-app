@@ -7,8 +7,8 @@ import 'package:shoes_shop_app/views/home/product_detail_page.dart';
 
 class ShoesCard extends StatelessWidget {
   const ShoesCard({
-    super.key, required this.shoes,
-    
+    super.key,
+    required this.shoes,
   });
 
   final Shoes shoes;
@@ -19,7 +19,9 @@ class ShoesCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const ProductDetailPage(),
+            builder: (context) => ProductDetailPage(
+              id: shoes.id,
+            ),
           ),
         );
       },
@@ -90,8 +92,9 @@ class ShoesCard extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColors.backgroundTextField),
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppColors.backgroundTextField,
+                  ),
                   child: Text(
                     "${shoes.sold} sold",
                     style: GoogleFonts.poppins(
@@ -105,7 +108,9 @@ class ShoesCard extends StatelessWidget {
             Text(
               "\$${shoes.price}",
               style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.w500),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
             )
           ],
         ),

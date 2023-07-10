@@ -21,11 +21,11 @@ class SettingRow extends StatelessWidget {
 
     return GetBuilder<AuthController>(
       builder: (_) => InkWell(
-        onTap: authController.getAuthorize() ? onTap : null,
+        onTap: authController.getUserInfo().email != "" ? onTap : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
-            vertical: 10,
+            vertical: 12,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

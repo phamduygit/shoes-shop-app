@@ -98,26 +98,33 @@ class ClientService {
   }
 
   Future<String> refreshToken() async {
-    var dioRefreshToken = Dio();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Get refresh token
-    final String? refreshToken = prefs.getString('refreshToken');
+    try {
+      var dioRefreshToken = Dio();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Get refresh token
+      final String? refreshToken = prefs.getString('refreshToken');
 
-    if (refreshToken == null || refreshToken == "") {
+      if (refreshToken == null || refreshToken == "") {
+        return "";
+      }
+
+      dioRefreshToken.options.headers["authorization"] = "Bearer $refreshToken";
+
+      var response = await dioRefreshToken.post(
+        "${Network.baseUrl}/api/v1/auth/refresh-token",
+      );
+
+      // Save access token to local storage
+      await prefs.setString('accessToken', response.data["accessToken"]);
+      // Save refresh token to local storage
+      await prefs.setString('refreshToken', response.data["refreshToken"]);
+
+      return response.data["accessToken"] as String;
+    } on DioException catch (e) {
+      if (e.response!.statusCode != 401) {
+        // do something
+      } 
       return "";
     }
-
-    dioRefreshToken.options.headers["authorization"] = "Bearer $refreshToken";
-
-    var response = await dioRefreshToken.post(
-      "${Network.baseUrl}/api/v1/auth/refresh-token",
-    );
-
-    // Save access token to local storage
-    await prefs.setString('accessToken', response.data["accessToken"]);
-    // Save refresh token to local storage
-    await prefs.setString('refreshToken', response.data["refreshToken"]);
-
-    return response.data["accessToken"] as String;
   }
 }

@@ -14,7 +14,7 @@ class HomeService {
 
     var response = await ClientService().get("/api/v1/promote");
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response != null && response.statusCode == HttpStatus.ok) {
       final firstData = response.data["data"].first;
       firstPromote = Promote.fromJson(firstData);
     }
@@ -27,7 +27,7 @@ class HomeService {
 
     var response = await ClientService().get("/api/v1/brand-category");
 
-    if (response.statusCode == HttpStatus.ok) {
+    if (response != null && response.statusCode == HttpStatus.ok) {
       final responseList = response.data["data"];
       for (var brand in responseList) {
         listBrand.add(Brand.fromJson(brand));

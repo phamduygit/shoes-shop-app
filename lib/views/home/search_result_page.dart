@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoes_shop_app/views/home/components/product_display_list.dart';
 import 'package:shoes_shop_app/views/home/components/search_bar.dart';
 import 'package:shoes_shop_app/views/home/search_page.dart';
 

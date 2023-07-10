@@ -20,8 +20,7 @@ class BrandCategory extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: List.generate(listBrand.length, (index) {
           return BranchCard(
-            filePathToImage: listBrand[index].image,
-            name: listBrand[index].name,
+            brand: listBrand[index],
           );
         }),
       ),

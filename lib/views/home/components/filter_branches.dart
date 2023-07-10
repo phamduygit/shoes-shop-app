@@ -2,42 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-class FilterBranches extends StatefulWidget {
+class FilterBranches extends StatelessWidget {
   const FilterBranches({
     super.key,
     required this.branchCategories,
     required this.selectedItemName,
+    required this.onPressed,
   });
 
-  final String selectedItemName;
   final List<String> branchCategories;
-
-  @override
-  State<FilterBranches> createState() => _FilterBranchesState();
-}
-
-class _FilterBranchesState extends State<FilterBranches> {
-  late String selectedItemName;
-  @override
-  void initState() {
-    super.initState();
-    selectedItemName = widget.selectedItemName;
-  }
+  final String selectedItemName;
+  final Function(String) onPressed;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: widget.branchCategories
+        children: branchCategories
             .map(
               (e) => FilterItem(
                 name: e,
                 isSelected: e == selectedItemName,
                 onPressed: () {
-                  setState(() {
-                    selectedItemName = e;
-                  });
+                  onPressed(e);
                 },
               ),
             )

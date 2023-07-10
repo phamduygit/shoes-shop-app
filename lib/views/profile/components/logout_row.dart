@@ -16,7 +16,7 @@ class LogoutRow extends StatelessWidget {
     final AuthController authController = Get.find();
     return GetBuilder<AuthController>(
       builder: (_) => InkWell(
-        onTap: authController.getAuthorize()
+        onTap: authController.getUserInfo().email != ""
             ? onTap
             : () => Get.to(const LoginPage()),
         child: Padding(
@@ -32,17 +32,17 @@ class LogoutRow extends StatelessWidget {
                     : "assets/images/login_icon.png",
                 width: 24,
                 height: 24,
-                color: authController.getAuthorize() ? Colors.red : Colors.blue,
+                color: authController.getUserInfo().email != "" ? Colors.red : Colors.blue,
               ),
               const SizedBox(
                 width: 10,
               ),
               Text(
-                authController.getAuthorize() ? "Logout" : "Login",
+                authController.getUserInfo().email != "" ? "Logout" : "Login",
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   color:
-                      authController.getAuthorize() ? Colors.red : Colors.blue,
+                      authController.getUserInfo().email != "" ? Colors.red : Colors.blue,
                 ),
               ),
             ],
