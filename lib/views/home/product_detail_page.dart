@@ -5,7 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shoes_shop_app/components/quantity.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/controller/index_navigation_controller.dart';
+import 'package:shoes_shop_app/model/cart.dart';
 import 'package:shoes_shop_app/model/shoes.dart';
+import 'package:shoes_shop_app/service/cart_service.dart';
+import 'package:shoes_shop_app/service/favorite_service.dart';
 import 'package:shoes_shop_app/service/shoes_service.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -20,14 +24,57 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   Shoes shoesData = Shoes();
   RxBool isLoading = false.obs;
+  RxBool isFavorite = false.obs;
+  int quantity = 0;
+  String size = "";
+  final IndexNavigationController selectedIndex = Get.find();
+
+  void onPresssHeartIcon() async {
+    if (isFavorite.value) {
+      bool response = await FavoriteService().removeFavorite(shoesData.id);
+      if (response) {
+        isFavorite.value = false;
+      }
+    } else {
+      Shoes shoes = await FavoriteService().addAddFavorite(shoesData.id);
+      if (shoes.favorite) {
+        isFavorite.value = true;
+      }
+    }
+  }
+
+  void onPressAddToCart() async {
+    debugPrint("Size: $size");
+    debugPrint("Quantity: $quantity");
+    CartItem cartItem =
+        await CartService().addShoesToCart(shoesData.id, quantity, size);
+    if (cartItem.id != 0) {
+      selectedIndex.setIndex(1);
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    }
+  }
 
   Future<void> init() async {
     isLoading.value = true;
     var response = await ShoesService().getShoesDetail(widget.id);
+
     if (response != null) {
       shoesData = response;
+      isFavorite.value = shoesData.favorite;
+      size = shoesData.sizes![0];
+      quantity = 1;
     }
     isLoading.value = false;
+  }
+
+  void onPressSize(String value) {
+    size = value;
+  }
+
+  void onChangeQuantity(int value) {
+    quantity = value;
   }
 
   @override
@@ -47,6 +94,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           },
           splashRadius: 24,
         ),
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset("assets/images/cart_icon.svg"),
+            onPressed: () {},
+            splashRadius: 24,
+          ),
+        ],
         backgroundColor: AppColors.secondBackgroundColor,
         elevation: 0,
       ),
@@ -97,9 +151,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
-                                        icon: SvgPicture.asset(
-                                          "assets/images/heart_icon.svg",
+                                        onPressed: onPresssHeartIcon,
+                                        icon: Obx(
+                                          () => Image.asset(
+                                            isFavorite.value
+                                                ? "assets/images/heart_fill_icon.png"
+                                                : "assets/images/heart_icon.png",
+                                            height: 24,
+                                            width: 24,
+                                            color: AppColors.secondaryColor,
+                                          ),
                                         ),
                                         splashRadius: 18,
                                       )
@@ -160,6 +221,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   SizeSelection(
                                     categories: shoesData.sizes!,
                                     selectedItemName: shoesData.sizes![0],
+                                    onPress: onPressSize,
                                   ),
                                   const SizedBox(height: 12),
                                   Row(
@@ -172,7 +234,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         ),
                                       ),
                                       const SizedBox(width: 30),
-                                      const QuantityWidget()
+                                      QuantityWidget(
+                                        value: 1,
+                                        onChangeQuantity: onChangeQuantity,
+                                      )
                                     ],
                                   ),
                                   const SizedBox(height: 12),
@@ -216,7 +281,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               const SizedBox(width: 20),
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: onPressAddToCart,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.secondaryColor,
                                     minimumSize: const Size.fromHeight(50),
@@ -261,10 +326,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
 class SizeSelection extends StatefulWidget {
   const SizeSelection(
-      {super.key, required this.selectedItemName, required this.categories});
+      {super.key,
+      required this.selectedItemName,
+      required this.categories,
+      required this.onPress});
 
   final String selectedItemName;
   final List<String> categories;
+  final Function(String) onPress;
 
   @override
   State<SizeSelection> createState() => _SizeSelectionState();
@@ -292,6 +361,7 @@ class _SizeSelectionState extends State<SizeSelection> {
                   setState(() {
                     selectedItemName = e;
                   });
+                  widget.onPress(e);
                 },
               ),
             )

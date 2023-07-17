@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shoes_shop_app/components/auth_builder.dart';
 import 'package:shoes_shop_app/components/loading_builder.dart';
 import 'package:shoes_shop_app/controller/auth_controller.dart';
+import 'package:shoes_shop_app/controller/index_navigation_controller.dart';
 import 'package:shoes_shop_app/controller/loading_controller.dart';
 import 'package:shoes_shop_app/views/cart/cart_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
@@ -20,7 +21,8 @@ class AppNavigationBar extends StatefulWidget {
 }
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
-  var _selectedIndex = 0;
+  final IndexNavigationController selectedIndex =
+      Get.put(IndexNavigationController());
 
   final AuthController authController = Get.put(AuthController());
   final LoadingController loadingController = Get.put(LoadingController());
@@ -34,9 +36,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    selectedIndex.setIndex(index);
   }
 
   @override
@@ -52,56 +52,63 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scaffold(
-          body: _widgetOptions.elementAt(_selectedIndex),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/images/house_icon.svg",
-                  colorFilter:
-                      _selectedIndex == 0 ? selectedColor : unSelectedColor,
+        Obx(
+          () => Scaffold(
+            body: _widgetOptions.elementAt(selectedIndex.index.value),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomNavigationBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/images/house_icon.svg",
+                    colorFilter: selectedIndex.index.value == 0
+                        ? selectedColor
+                        : unSelectedColor,
+                  ),
+                  label: 'Home',
                 ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/images/bag_icon.svg",
-                  colorFilter:
-                      _selectedIndex == 1 ? selectedColor : unSelectedColor,
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/images/bag_icon.svg",
+                    colorFilter: selectedIndex.index.value == 1
+                        ? selectedColor
+                        : unSelectedColor,
+                  ),
+                  label: 'Cart',
                 ),
-                label: 'Cart',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/images/cart_icon.svg",
-                  colorFilter:
-                      _selectedIndex == 2 ? selectedColor : unSelectedColor,
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/images/cart_icon.svg",
+                    colorFilter: selectedIndex.index.value == 2
+                        ? selectedColor
+                        : unSelectedColor,
+                  ),
+                  label: 'Orders',
                 ),
-                label: 'Orders',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/images/wallet_icon.svg",
-                  colorFilter:
-                      _selectedIndex == 3 ? selectedColor : unSelectedColor,
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/images/wallet_icon.svg",
+                    colorFilter: selectedIndex.index.value == 3
+                        ? selectedColor
+                        : unSelectedColor,
+                  ),
+                  label: 'Wallet',
                 ),
-                label: 'Wallet',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  "assets/images/person_icon.svg",
-                  colorFilter:
-                      _selectedIndex == 4 ? selectedColor : unSelectedColor,
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/images/person_icon.svg",
+                    colorFilter: selectedIndex.index.value == 4
+                        ? selectedColor
+                        : unSelectedColor,
+                  ),
+                  label: 'Profile',
                 ),
-                label: 'Profile',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            showSelectedLabels: false,
-            onTap: _onItemTapped,
+              ],
+              currentIndex: selectedIndex.index.value,
+              showSelectedLabels: false,
+              onTap: _onItemTapped,
+            ),
           ),
         ),
         AuthBuilder(authController: authController),

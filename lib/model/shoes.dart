@@ -9,6 +9,7 @@ class Shoes {
   final List<String>? sizes;
   final String? description;
   final int reviews;
+  final bool favorite;
 
   Shoes({
     this.id = 0,
@@ -21,6 +22,7 @@ class Shoes {
     this.colors,
     this.sizes,
     this.description,
+    this.favorite = false,
   });
 
   factory Shoes.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,17 @@ class Shoes {
       name: json["name"],
       price: json["price"],
       coverImage: json["coverImage"],
+      favorite: json["favorite"],
+    );
+  }
+
+  factory Shoes.fromJsonFavorite(Map<String, dynamic> json) {
+    return Shoes(
+      id: json["shoesId"],
+      name: json["name"],
+      price: json["price"],
+      coverImage: json["coverImage"],
+      favorite: json["favorite"],
     );
   }
 
@@ -41,6 +54,7 @@ class Shoes {
       sizes: json["sizes"].cast<String>(),
       colors: json["colors"].cast<String>(),
       description: json["description"],
+      favorite: json["favorite"],
     );
   }
 }

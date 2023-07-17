@@ -4,8 +4,22 @@ import "package:google_fonts/google_fonts.dart";
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/order/component/shipping_option_card.dart';
 
-class ChoseShippingPage extends StatelessWidget {
-  const ChoseShippingPage({super.key});
+class ChoseShippingPage extends StatefulWidget {
+  const ChoseShippingPage({super.key, required this.selectedIndex});
+  final int selectedIndex;
+
+  @override
+  State<ChoseShippingPage> createState() => _ChoseShippingPageState();
+}
+
+class _ChoseShippingPageState extends State<ChoseShippingPage> {
+  int selectedMethod = 0;
+
+  @override
+  void initState() {
+    selectedMethod = widget.selectedIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +36,7 @@ class ChoseShippingPage extends StatelessWidget {
         leading: IconButton(
           icon: SvgPicture.asset("assets/images/arrow_icon.svg"),
           onPressed: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(selectedMethod);
           },
           splashRadius: 24,
         ),
@@ -37,36 +51,40 @@ class ChoseShippingPage extends StatelessWidget {
                 child: Column(
                   children: [
                     ShippingOptionCard(
-                      name: "Home",
-                      description: "61480 Sunbrook Park, PC 5679",
-                      isSelected: true,
-                      onPressed: () {},
+                      name: "Normal",
+                      description: "From 5 - 7 days from order date",
+                      isSelected: selectedMethod == 0,
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = 0;
+                        });
+                      },
                       iconUri: "assets/images/economy_icon.png",
                       price: "\$10",
                     ),
                     ShippingOptionCard(
-                      name: "Office",
-                      description: "6993 Meadow Valley Terra, PC 3637",
-                      isSelected: false,
-                      onPressed: () {},
+                      name: "Fast",
+                      description: "From 3 - 4 days from order date",
+                      isSelected: selectedMethod == 1,
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = 1;
+                        });
+                      },
                       iconUri: "assets/images/regular_icon.png",
                       price: "\$15",
                     ),
                     ShippingOptionCard(
-                      name: "Apartment",
-                      description: "21833 Cly Gallagher, PC 4662",
-                      isSelected: false,
-                      onPressed: () {},
+                      name: "Express",
+                      description: "From 1 - 2 days from order date",
+                      isSelected: selectedMethod == 2,
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = 2;
+                        });
+                      },
                       iconUri: "assets/images/truck_icon.png",
                       price: "\$20",
-                    ),
-                    ShippingOptionCard(
-                      name: "Parent's House",
-                      description: "5259 Blue Bill Park, PC 4627",
-                      isSelected: false,
-                      onPressed: () {},
-                      iconUri: "assets/images/express_icon.png",
-                      price: "\$30",
                     ),
                   ],
                 ),
@@ -75,7 +93,9 @@ class ChoseShippingPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop(selectedMethod);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.secondaryColor,
                         minimumSize: const Size.fromHeight(50),

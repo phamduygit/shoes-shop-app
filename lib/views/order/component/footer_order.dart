@@ -6,7 +6,10 @@ import 'package:shoes_shop_app/views/order/checkout_page.dart';
 class FooterOrder extends StatelessWidget {
   const FooterOrder({
     super.key,
+    required this.totalPrice,
   });
+
+  final double totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class FooterOrder extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$105.00",
+                  "\$${totalPrice.toStringAsFixed(2)}",
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     color: AppColors.secondaryColor,

@@ -6,7 +6,12 @@ import '../constant/colors.dart';
 class QuantityWidget extends StatefulWidget {
   const QuantityWidget({
     super.key,
+    required this.value,
+    required this.onChangeQuantity,
   });
+
+  final int value;
+  final Function(int) onChangeQuantity;
 
   @override
   State<QuantityWidget> createState() => _QuantityWidgetState();
@@ -33,9 +38,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
             child: IconButton(
               padding: const EdgeInsets.all(0),
               onPressed: () {
-                setState(() {
-                  count = count - 1;
-                });
+                widget.onChangeQuantity(widget.value - 1);
               },
               icon: Image.asset(
                 "assets/images/subtract_icon.png",
@@ -48,7 +51,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
           SizedBox(
             width: 20,
             child: Text(
-              "$count",
+              "${widget.value}",
               style: GoogleFonts.poppins(fontSize: 14),
               textAlign: TextAlign.center,
             ),
@@ -59,9 +62,7 @@ class _QuantityWidgetState extends State<QuantityWidget> {
             child: IconButton(
               padding: const EdgeInsets.all(0),
               onPressed: () {
-                setState(() {
-                  count = count + 1;
-                });
+                widget.onChangeQuantity(widget.value + 1);
               },
               icon: Image.asset(
                 "assets/images/plus_icon.png",

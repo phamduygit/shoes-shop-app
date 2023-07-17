@@ -77,7 +77,7 @@ class _SerachPageState extends State<SerachPage> {
     if (pageKey < totalPages) {
       var response =
           await ShoesService().filterListShoes(pageKey, selectedBrand.id.value);
-      shoesList.value = shoesList + response["listShoes"];
+      shoesList.value = shoesList.toList() +  response["listShoes"];
       currentPage = currentPage + 1;
     }
   }

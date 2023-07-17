@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/views/cart/active_page.dart';
-import 'package:shoes_shop_app/views/cart/complete_page.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/home/search_page.dart';
 
@@ -91,10 +90,10 @@ class _CartPageState extends State<CartPage> {
           elevation: 0,
           backgroundColor: AppColors.backgroundColor,
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            ActivePage(orders: orders),
-            const CompletePage(),
+            ActivePage(isComplete: false),
+            ActivePage(isComplete: true),
           ],
         ),
       ),

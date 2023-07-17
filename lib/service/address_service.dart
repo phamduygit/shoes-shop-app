@@ -53,4 +53,26 @@ class AddressService {
     }
     return listAddress;
   }
+
+  Future<Address> getDefaultAddress() async {
+    Address responseAddress = Address();
+    var response = await ClientService().get("/api/v1/address");
+
+    if (response == null) return responseAddress;
+
+    if (response.statusCode == HttpStatus.ok) {
+      final responseData = response.data["data"];
+      for (var item in responseData) {
+        Address address = Address.fromJson(item);
+        if (address.selected) {
+          return address;
+        }
+      }
+      if (responseData[0] != null) {
+        responseAddress = Address.fromJson(responseData[0]);
+      }
+    }
+
+    return responseAddress;
+  }
 }

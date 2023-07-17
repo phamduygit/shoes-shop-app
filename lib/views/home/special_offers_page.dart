@@ -22,7 +22,7 @@ class _SpecialOffersPageState extends State<SpecialOffersPage> {
   Future<void> init() async {
     isLoading.value = true;
     var response = await PromoteService().getAllPromote();
-    if (response != null) {
+    if (response.isNotEmpty) {
       listPromteData = response;
     }
     isLoading.value = false;
@@ -76,26 +76,7 @@ class _SpecialOffersPageState extends State<SpecialOffersPage> {
                         description: listPromteData[index].description,
                       ),
                     ),
-                    // children: const [
-                    //   SpecialOfferCard(
-                    //     backgroundColor: AppColors.redColorForDiscount,
-                    //     imageUrl:
-                    //         'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
-                    //     percentDiscount: 25,
-                    //     title: 'Today Special!',
-                    //     description:
-                    //         "Get discount for every \norder, only valid for today",
-                    //   ),
-                    //   SpecialOfferCard(
-                    //     backgroundColor: Color(0xFFedbeea),
-                    //     imageUrl:
-                    //         'https://images.unsplash.com/photo-1605408499391-6368c628ef42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-                    //     percentDiscount: 25,
-                    //     title: 'Weekends Deals',
-                    //     description:
-                    //         "Get discount for every \norder, only valid for today",
-                    //   ),
-                    // ],
+                    
                   ),
                 ),
         ),

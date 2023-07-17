@@ -4,9 +4,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 import 'package:shoes_shop_app/views/order/component/payment_method_card.dart';
 
-class PaymentPage extends StatelessWidget {
-  const PaymentPage({super.key});
+class PaymentPage extends StatefulWidget {
+  const PaymentPage(
+      {super.key,
+      required this.cartId,
+      required this.shippingAddress,
+      required this.shippingMethod});
 
+  final int cartId;
+  final String shippingAddress;
+  final String shippingMethod;
+
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
+  List<String> listMethod = ["CASH", "PAYPAL", "GOOGLE_PAY", "CARD"];
+  String selectedMethod = "CASH";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,30 +64,46 @@ class PaymentPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     PaymentMethodCard(
-                      name: "My Wallet",
-                      isSelected: true,
-                      onPressed: () {},
+                      name: "Cash",
+                      isSelected: selectedMethod == "CASH",
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = "CASH";
+                        });
+                      },
                       iconUri: "assets/images/wallet_fill_icon.png",
-                      price: "\$10",
+                      price: "",
                     ),
                     PaymentMethodCard(
                       name: "Paypal",
-                      isSelected: false,
-                      onPressed: () {},
+                      isSelected: selectedMethod == "PAYPAL",
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = "PAYPAL";
+                        });
+                      },
                       iconUri: "assets/images/paypal_icon.png",
                       price: "",
                     ),
                     PaymentMethodCard(
                       name: "Google pay",
-                      isSelected: false,
-                      onPressed: () {},
+                      isSelected: selectedMethod == "GOOGLE_PAY",
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = "GOOGLE_PAY";
+                        });
+                      },
                       iconUri: "assets/images/google_icon.png",
                       price: "",
                     ),
                     PaymentMethodCard(
                       name: "**** **** **** 1234",
-                      isSelected: false,
-                      onPressed: () {},
+                      isSelected: selectedMethod == "CARD",
+                      onPressed: () {
+                        setState(() {
+                          selectedMethod = "CARD";
+                        });
+                      },
                       iconUri: "assets/images/mastercard_icon.png",
                       price: "",
                     ),
@@ -83,7 +114,10 @@ class PaymentPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        debugPrint(
+                            "cartId: ${widget.cartId}, address: ${widget.shippingAddress}, paymentMethod: $selectedMethod, shippingMethod: ${widget.shippingMethod}");
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.secondaryColor,
                         minimumSize: const Size.fromHeight(50),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/cart.dart';
 
 class OrderedCard extends StatelessWidget {
-  const OrderedCard({super.key});
+  const OrderedCard({super.key, required this.cartItem});
+
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,12 @@ class OrderedCard extends StatelessWidget {
                   Radius.circular(10),
                 ),
                 color: AppColors.secondBackgroundColor),
-            child: Image.asset(
-              "assets/images/shoes/shoes2.png",
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                cartItem.imageUrl,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -47,7 +53,7 @@ class OrderedCard extends StatelessWidget {
                       Flexible(
                         child: SizedBox(
                           child: Text(
-                            "Air Jordan 3 Retro",
+                            cartItem.name,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -61,14 +67,14 @@ class OrderedCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "Size = 42",
+                    "Size = ${cartItem.size}",
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       Text(
-                        "\$105.00",
+                        "\$${cartItem.price}",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           color: AppColors.secondaryColor,
@@ -87,7 +93,7 @@ class OrderedCard extends StatelessWidget {
                             SizedBox(
                               width: 20,
                               child: Text(
-                                "1",
+                                "${cartItem.quantity}",
                                 style: GoogleFonts.poppins(fontSize: 14),
                                 textAlign: TextAlign.center,
                               ),

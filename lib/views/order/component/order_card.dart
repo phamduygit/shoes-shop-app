@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoes_shop_app/components/quantity.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/cart.dart';
+import 'package:shoes_shop_app/service/cart_service.dart';
+import 'package:shoes_shop_app/views/order/component/remove_from_cart_sheet.dart';
 
-class OrderCard extends StatelessWidget {
+class OrderCard extends StatefulWidget {
   const OrderCard({
     super.key,
     this.isDiableRemove,
+    required this.cartItem,
+    required this.onPressDelete,
   });
 
   final bool? isDiableRemove;
+  final CartItem cartItem;
+  final Function(int) onPressDelete;
+
+  @override
+  State<OrderCard> createState() => _OrderCardState();
+}
+
+class _OrderCardState extends State<OrderCard> {
+  RxInt quantity = 0.obs;
+  void onQuantityChanged(int value) async {
+    CartItem response = await CartService()
+        .updateQuantity(widget.cartItem.id, value, widget.cartItem.size);
+    if (response.id != 0) {
+      quantity.value = response.quantity;
+    }
+  }
+
+  @override
+  void initState() {
+    quantity.value = widget.cartItem.quantity;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,14 +55,18 @@ class OrderCard extends StatelessWidget {
             width: 120,
             height: 120,
             decoration: const BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                color: AppColors.secondBackgroundColor),
-            child: Image.asset(
-              "assets/images/shoes/shoes2.png",
-              fit: BoxFit.cover,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+              color: AppColors.secondBackgroundColor,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                widget.cartItem.imageUrl,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -45,14 +77,14 @@ class OrderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: (isDiableRemove == true) ? 12 : 0),
+                  SizedBox(height: (widget.isDiableRemove == true) ? 12 : 0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         child: SizedBox(
                           child: Text(
-                            "Air Jordan 3 Retro",
+                            widget.cartItem.name,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -61,7 +93,7 @@ class OrderCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      isDiableRemove == true
+                      widget.isDiableRemove == true
                           ? Container()
                           : IconButton(
                               onPressed: () {
@@ -69,7 +101,10 @@ class OrderCard extends StatelessWidget {
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (BuildContext context) {
-                                    return const RemoveFromCartSheet();
+                                    return RemoveFromCartSheet(
+                                      cartItem: widget.cartItem,
+                                      onPressDelete: widget.onPressDelete,
+                                    );
                                   },
                                 );
                               },
@@ -82,16 +117,16 @@ class OrderCard extends StatelessWidget {
                             ),
                     ],
                   ),
-                  SizedBox(height: (isDiableRemove == true) ? 12 : 0),
+                  SizedBox(height: (widget.isDiableRemove == true) ? 12 : 0),
                   Text(
-                    "Size = 42",
+                    "Size = ${widget.cartItem.size}",
                     style: GoogleFonts.poppins(fontSize: 12),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       Text(
-                        "\$105.00",
+                        "\$${widget.cartItem.price}",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           color: AppColors.secondaryColor,
@@ -99,7 +134,62 @@ class OrderCard extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      const QuantityWidget(),
+                      Obx(
+                        () => Container(
+                          padding: const EdgeInsets.all(0),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            color: AppColors.secondBackgroundColor,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 28,
+                                width: 28,
+                                child: IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () {
+                                    onQuantityChanged(quantity.value - 1);
+                                  },
+                                  icon: Image.asset(
+                                    "assets/images/subtract_icon.png",
+                                    height: 12,
+                                    width: 12,
+                                  ),
+                                  splashRadius: 12,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                                child: Text(
+                                  "${quantity.value}",
+                                  style: GoogleFonts.poppins(fontSize: 14),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 28,
+                                width: 28,
+                                child: IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () {
+                                    onQuantityChanged(quantity.value + 1);
+                                  },
+                                  icon: Image.asset(
+                                    "assets/images/plus_icon.png",
+                                    height: 12,
+                                    width: 12,
+                                  ),
+                                  splashRadius: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   )
                 ],
@@ -107,103 +197,6 @@ class OrderCard extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class RemoveFromCartSheet extends StatelessWidget {
-  const RemoveFromCartSheet({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        color: AppColors.backgroundColor,
-      ),
-      height: 350,
-      child: Center(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                "Remove From Cart?",
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Divider(
-                color: AppColors.secondaryTextColor,
-              ),
-            ),
-            const OrderCard(isDiableRemove: true),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Divider(
-                color: AppColors.secondaryTextColor,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Text(
-                        "Cancel",
-                        style: GoogleFonts.raleway(
-                          fontSize: 16,
-                          color: AppColors.secondaryColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.secondaryColor,
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Text(
-                        "Yes, Remove",
-                        style: GoogleFonts.raleway(
-                          fontSize: 16,
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

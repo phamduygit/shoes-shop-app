@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/address.dart';
+import 'package:shoes_shop_app/service/address_service.dart';
 import 'package:shoes_shop_app/views/order/component/edit_shipping_address.dart';
+import 'package:shoes_shop_app/views/profile/address_page.dart';
 
-class ShippingAddressPage extends StatelessWidget {
+class ShippingAddressPage extends StatefulWidget {
   const ShippingAddressPage({super.key});
+
+  @override
+  State<ShippingAddressPage> createState() => _ShippingAddressPageState();
+}
+
+class _ShippingAddressPageState extends State<ShippingAddressPage> {
+  RxBool isLoading = false.obs;
+  RxList<Address> listAddress = <Address>[].obs;
+  RxInt selectedIndex = 0.obs;
+  Future<void> init() async {
+    isLoading.value = true;
+    List<Address> list = await AddressService().getListAddress();
+    selectedIndex.value = list.indexWhere((element) => element.selected);
+    listAddress.value = list;
+    isLoading.value = false;
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,107 +48,111 @@ class ShippingAddressPage extends StatelessWidget {
         leading: IconButton(
           icon: SvgPicture.asset("assets/images/arrow_icon.svg"),
           onPressed: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(listAddress[selectedIndex.value]);
           },
           splashRadius: 24,
         ),
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    EditAddressCard(
-                      name: "Home",
-                      description: "61480 Sunbrook Park, PC 5679",
-                      isSelected: true,
-                      onPressed: () {},
-                    ),
-                    EditAddressCard(
-                      name: "Office",
-                      description: "6993 Meadow Valley Terra, PC 3637",
-                      isSelected: false,
-                      onPressed: () {},
-                    ),
-                    EditAddressCard(
-                      name: "Apartment",
-                      description: "21833 Cly Gallagher, PC 4662",
-                      isSelected: false,
-                      onPressed: () {},
-                    ),
-                    EditAddressCard(
-                      name: "Parent's House",
-                      description: "5259 Blue Bill Park, PC 4627",
-                      isSelected: false,
-                      onPressed: () {},
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.secondBackgroundColor,
-                              minimumSize: const Size.fromHeight(50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Add New Address",
-                                  style: GoogleFonts.raleway(
-                                    fontSize: 16,
-                                    color: AppColors.secondaryColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
+        child: Obx(
+          () => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: List.generate(
+                          listAddress.length,
+                          (index) => EditAddressCard(
+                            name: listAddress[index].addressName,
+                            description: listAddress[index].addressDetail,
+                            isSelected: index == selectedIndex.value,
+                            onPressed: () {
+                              selectedIndex.value = index;
+                            },
                           ),
                         ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.secondaryColor,
-                        minimumSize: const Size.fromHeight(50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      const SizedBox(height: 20),
+                      Row(
                         children: [
-                          Text(
-                            "Apply",
-                            style: GoogleFonts.raleway(
-                              fontSize: 18,
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AddressPage(),
+                                      ),
+                                    )
+                                    .then((value) => init());
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    AppColors.secondBackgroundColor,
+                                minimumSize: const Size.fromHeight(50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Add New Address",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 16,
+                                      color: AppColors.secondaryColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
+                      )
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(listAddress[selectedIndex.value]);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.secondaryColor,
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Apply",
+                              style: GoogleFonts.raleway(
+                                fontSize: 18,
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

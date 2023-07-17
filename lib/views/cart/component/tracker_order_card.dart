@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/order.dart';
+import 'package:shoes_shop_app/views/cart/track_order_page.dart';
 
 class TrackedOrderCard extends StatelessWidget {
   const TrackedOrderCard({
     super.key,
-    required this.status,
-    required this.titleButton,
-    required this.onPressButton,
+    required this.order,
   });
-
-  final String status;
-  final String titleButton;
-  final VoidCallback onPressButton;
+  final Order order;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,9 +32,12 @@ class TrackedOrderCard extends StatelessWidget {
                   Radius.circular(10),
                 ),
                 color: AppColors.secondBackgroundColor),
-            child: Image.asset(
-              "assets/images/shoes/shoes2.png",
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                order.imageUrl,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -54,7 +54,7 @@ class TrackedOrderCard extends StatelessWidget {
                       Flexible(
                         child: SizedBox(
                           child: Text(
-                            "Air Jordan 3 Retro",
+                            order.name,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -67,7 +67,7 @@ class TrackedOrderCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "Size = 42  |  Qty = 2",
+                    "Size = ${order.size}  |  Qty = ${order.quantity}",
                     style: GoogleFonts.poppins(
                         fontSize: 12, color: AppColors.secondaryTextColor),
                   ),
@@ -80,7 +80,7 @@ class TrackedOrderCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: AppColors.secondBackgroundColor),
                     child: Text(
-                      status,
+                      order.shippingStatus,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                       ),
@@ -89,7 +89,7 @@ class TrackedOrderCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "\$105.00",
+                        "\$${order.price}",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           color: AppColors.secondaryColor,
@@ -106,9 +106,15 @@ class TrackedOrderCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             color: AppColors.secondaryColor),
                         child: GestureDetector(
-                          onTap: onPressButton,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const TrackOrderPage(),
+                              ),
+                            );
+                          },
                           child: Text(
-                            titleButton,
+                            "Tracker order",
                             style: GoogleFonts.poppins(
                                 fontSize: 12, color: AppColors.primaryColor),
                           ),

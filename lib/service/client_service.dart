@@ -97,10 +97,34 @@ class ClientService {
     }
   }
 
+  Future<dynamic> delete(String path) async {
+    try {
+      final response = await dio.request(
+        path,
+        options: Options(method: 'DELETE'),
+      );
+      return response;
+    } on DioException catch (e) {
+      if (e.response!.statusCode == HttpStatus.unauthorized) {
+        var accessToken = await refreshToken();
+        if (accessToken == "") {
+          return null;
+        }
+        return delete(path);
+      }
+      return null;
+    }
+  }
+
   Future<String> refreshToken() async {
     try {
       var dioRefreshToken = Dio();
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool? isAvailableRefreshToken = prefs.getBool('isAvailableRefreshToken');
+      if (isAvailableRefreshToken != null && isAvailableRefreshToken == false) {
+        return "accessToken";
+      }
+      await prefs.setBool('isAvailableRefreshToken', false);
       // Get refresh token
       final String? refreshToken = prefs.getString('refreshToken');
 
@@ -118,12 +142,13 @@ class ClientService {
       await prefs.setString('accessToken', response.data["accessToken"]);
       // Save refresh token to local storage
       await prefs.setString('refreshToken', response.data["refreshToken"]);
-
+      // Save refresh token to local storage
+      await prefs.setBool('isAvailableRefreshToken', true);
       return response.data["accessToken"] as String;
     } on DioException catch (e) {
       if (e.response!.statusCode != 401) {
         // do something
-      } 
+      }
       return "";
     }
   }

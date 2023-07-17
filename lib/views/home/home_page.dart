@@ -57,8 +57,12 @@ class _HomePageState extends State<HomePage> {
 
     brandData = response[1] as List<Brand>;
     filterBrandList = filterBrandList + brandData.map((e) => e.name).toList();
-    shoesData = response[2]["listShoes"] as List<Shoes>;
-    totalPage = response[2]["totalPages"];
+    if (response[2] != null) {
+      shoesData = response[2]["listShoes"] as List<Shoes>;
+      totalPage = response[2]["totalPages"];
+    }
+
+    
     authController.setUserInfo(response[3]);
     isLoading.value = true;
   }
