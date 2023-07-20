@@ -17,17 +17,41 @@ class MyWishList extends StatefulWidget {
 class _MyWishListState extends State<MyWishList> {
   RxList<Shoes> listShoes = <Shoes>[].obs;
   RxBool isLoading = false.obs;
+  RxBool isFetching = false.obs;
+  int totalPages = 0;
+  int currentPage = 0;
+  final scrollController = ScrollController();
 
   Future<void> init() async {
     isLoading.value = true;
-    List<Shoes> list = await FavoriteService().getListFavorite();
-    listShoes.value = list;
+    currentPage = 0;
+    var responseData = await FavoriteService().getListFavorite(currentPage);
+    listShoes.value = responseData["list"];
+    totalPages = responseData["totalPages"];
+    currentPage++;
     isLoading.value = false;
+  }
+
+  Future<void> fetchMore() async {
+    if (currentPage < totalPages) {
+      var responseData = await FavoriteService().getListFavorite(currentPage);
+      listShoes.value = listShoes.toList() + responseData["list"];
+      currentPage = currentPage + 1;
+    }
   }
 
   @override
   void initState() {
     init();
+    scrollController.addListener(() async {
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        isFetching.value = true;
+        await fetchMore();
+        await Future.delayed(const Duration(seconds: 1));
+        isFetching.value = false;
+      }
+    });
     super.initState();
   }
 
@@ -66,7 +90,28 @@ class _MyWishListState extends State<MyWishList> {
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: SingleChildScrollView(
-                            child: ProductDisplayList(shoes: listShoes)),
+                          controller: scrollController,
+                          child: Column(
+                            children: [
+                              ProductDisplayList(shoes: listShoes),
+                              isFetching.value
+                                  ? Column(
+                                      children: [
+                                        const SizedBox(height: 20),
+                                        LoadingAnimationWidget
+                                            .staggeredDotsWave(
+                                          color: Colors.red,
+                                          size: 48,
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                              isFetching.value
+                                  ? Container()
+                                  : const SizedBox(height: 68),
+                            ],
+                          ),
+                        ),
                       ),
               )
             ],

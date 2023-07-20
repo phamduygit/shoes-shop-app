@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/model/order.dart';
 
 class TrackOrderPage extends StatelessWidget {
-  const TrackOrderPage({super.key});
+  const TrackOrderPage({super.key, required this.order});
 
+  final Order order;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,9 @@ class TrackOrderPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const OneTrackOrderCard(),
+              OneTrackOrderCard(
+                order: order,
+              ),
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -228,7 +232,10 @@ class OrderStatus extends StatelessWidget {
 class OneTrackOrderCard extends StatelessWidget {
   const OneTrackOrderCard({
     super.key,
+    required this.order,
   });
+
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -252,9 +259,12 @@ class OneTrackOrderCard extends StatelessWidget {
                   Radius.circular(10),
                 ),
                 color: AppColors.secondBackgroundColor),
-            child: Image.asset(
-              "assets/images/shoes/shoes2.png",
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Image.network(
+                order.imageUrl,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -271,7 +281,7 @@ class OneTrackOrderCard extends StatelessWidget {
                       Flexible(
                         child: SizedBox(
                           child: Text(
-                            "Air Jordan 3 Retro",
+                            order.name,
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -284,7 +294,7 @@ class OneTrackOrderCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "Size = 42  |  Qty = 2",
+                    "Size = ${order.size}  |  Qty = ${order.quantity}",
                     style: GoogleFonts.poppins(
                         fontSize: 12, color: AppColors.secondaryTextColor),
                   ),
@@ -297,14 +307,14 @@ class OneTrackOrderCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: AppColors.secondBackgroundColor),
                     child: Text(
-                      "In Delivery",
+                      order.shippingStatus,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                       ),
                     ),
                   ),
                   Text(
-                    "\$105.00",
+                    "\$${order.price}",
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       color: AppColors.secondaryColor,

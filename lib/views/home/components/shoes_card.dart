@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/controller/auth_controller.dart';
 import 'package:shoes_shop_app/model/shoes.dart';
 import 'package:shoes_shop_app/service/favorite_service.dart';
 import 'package:shoes_shop_app/views/home/product_detail_page.dart';
@@ -20,6 +21,7 @@ class ShoesCard extends StatefulWidget {
 
 class _ShoesCardState extends State<ShoesCard> {
   RxBool isFavorite = false.obs;
+  final AuthController authController = Get.find();
 
   void onPresssHeartIcon() async {
     if (isFavorite.value) {
@@ -31,6 +33,8 @@ class _ShoesCardState extends State<ShoesCard> {
       Shoes shoes = await FavoriteService().addAddFavorite(widget.shoes.id);
       if (shoes.favorite) {
         isFavorite.value = true;
+      } else {
+        authController.setAuthorize(false);
       }
     }
   }

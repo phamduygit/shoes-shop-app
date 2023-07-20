@@ -34,19 +34,22 @@ class FavoriteService {
     return false;
   }
 
-  Future<List<Shoes>> getListFavorite() async {
+  Future<dynamic> getListFavorite(int? pageNumber) async {
     List<Shoes> listShoes = [];
-    var response = await ClientService().get("/api/v1/favorite");
+    int totalPages = 0;
+    var response = await ClientService().get("/api/v1/favorite?page=$pageNumber");
 
-    if (response == null) return [];
+    if (response == null) return {"list": listShoes, "totalPages": totalPages};
 
     if (response.statusCode == HttpStatus.ok) {
       var responseData = response.data["data"];
+      totalPages = response.data["totalPages"];
+
       for (var jsonData in responseData) {
         listShoes.add(Shoes.fromJsonFavorite(jsonData));
       }
-      return listShoes;
+      return {"list": listShoes, "totalPages": totalPages};
     }
-    return [];
+    return {"list": listShoes, "totalPages": totalPages};
   }
 }

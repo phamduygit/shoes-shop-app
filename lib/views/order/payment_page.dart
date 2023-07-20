@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoes_shop_app/components/confirm_dialog_with_button.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
+import 'package:shoes_shop_app/controller/index_navigation_controller.dart';
+import 'package:shoes_shop_app/service/order_service.dart';
 import 'package:shoes_shop_app/views/order/component/payment_method_card.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -22,6 +26,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   List<String> listMethod = ["CASH", "PAYPAL", "GOOGLE_PAY", "CARD"];
   String selectedMethod = "CASH";
+  IndexNavigationController index = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,9 +119,55 @@ class _PaymentPageState extends State<PaymentPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         debugPrint(
                             "cartId: ${widget.cartId}, address: ${widget.shippingAddress}, paymentMethod: $selectedMethod, shippingMethod: ${widget.shippingMethod}");
+
+                        var response = await OrderService().createOrder(
+                          widget.cartId,
+                          widget.shippingAddress,
+                          selectedMethod,
+                          widget.shippingMethod,
+                        );
+
+                        if (response != null) {
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (buildContext) {
+                                return ConfirmDialogWithButton(
+                                  subject: 'Thank you for your order',
+                                  message: 'Go to home page',
+                                  iconPath:
+                                      'assets/images/checkmark-done-outline.svg',
+                                  color: AppColors.successColor,
+                                  onPressed: () {
+                                    int count = 0;
+                                    Navigator.popUntil(context, (route) {
+                                      return count++ == 3;
+                                    });
+                                    index.setIndex(0);
+                                  },
+                                );
+                              },
+                            );
+                          }
+                        } else {
+                          if (context.mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (buildContext) {
+                                return ConfirmDialogWithButton(
+                                  subject: 'Authentication success',
+                                  message: 'Your account have been created',
+                                  iconPath: 'assets/images/error_icon.svg',
+                                  color: AppColors.redColorForDiscount,
+                                  onPressed: () {},
+                                );
+                              },
+                            );
+                          }
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.secondaryColor,

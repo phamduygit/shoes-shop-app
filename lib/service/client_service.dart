@@ -52,7 +52,7 @@ class ClientService {
         if (accessToken == "") {
           return null;
         }
-        return get(path);
+        return post(path, object);
       }
       return null;
     }
@@ -91,7 +91,7 @@ class ClientService {
         if (accessToken == "") {
           return null;
         }
-        return get(path);
+        return put(path, object);
       }
       return null;
     }
@@ -129,13 +129,17 @@ class ClientService {
       final String? refreshToken = prefs.getString('refreshToken');
 
       if (refreshToken == null || refreshToken == "") {
+        // Save refresh token to local storage
+        await prefs.setBool('isAvailableRefreshToken', true);
         return "";
       }
 
       dioRefreshToken.options.headers["authorization"] = "Bearer $refreshToken";
 
+      String url = "${Network.getBaseUrl()}/api/v1/auth/refresh-token";
+
       var response = await dioRefreshToken.post(
-        "${Network.baseUrl}/api/v1/auth/refresh-token",
+        url,
       );
 
       // Save access token to local storage
@@ -146,9 +150,12 @@ class ClientService {
       await prefs.setBool('isAvailableRefreshToken', true);
       return response.data["accessToken"] as String;
     } on DioException catch (e) {
-      if (e.response!.statusCode != 401) {
+      if (e.response != null && e.response!.statusCode != 401) {
         // do something
       }
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Save refresh token to local storage
+      await prefs.setBool('isAvailableRefreshToken', true);
       return "";
     }
   }

@@ -5,7 +5,7 @@ import 'package:shoes_shop_app/components/email_text_field.dart';
 import 'package:shoes_shop_app/views/auth/components/welcome_string.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-import 'components/auth_dialog.dart';
+import 'components/confirm_dialog.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -69,7 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return const AuthDialog(
+                        return const ConfirmDialog(
                           subject: "Check Your Email",
                           message:
                               "We have Send Password Recovery\nCode In Your Email",

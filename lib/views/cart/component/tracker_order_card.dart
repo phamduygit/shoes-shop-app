@@ -109,7 +109,7 @@ class TrackedOrderCard extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const TrackOrderPage(),
+                                builder: (context) => TrackOrderPage(order: order,),
                               ),
                             );
                           },

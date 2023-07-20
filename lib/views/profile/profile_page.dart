@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
 
     final AuthController authController = Get.find();
 
-    authController.setAuthorize(false);
+    // authController.setAuthorize(false);
 
     authController.setUserInfo(User());
 
@@ -133,27 +133,27 @@ class ProfilePage extends StatelessWidget {
                         SettingRow(
                           startIcon: "assets/images/notification_icon.png",
                           name: "Notification",
-                          onTap: onPressEditProfileRow,
+                          onTap: () {},
                         ),
                         SettingRow(
                           startIcon: "assets/images/payment_icon.png",
                           name: "Payment",
-                          onTap: onPressEditProfileRow,
+                          onTap: () {},
                         ),
                         SettingRow(
                           startIcon: "assets/images/security_icon.png",
                           name: "Security",
-                          onTap: onPressEditProfileRow,
+                          onTap: () {},
                         ),
                         SettingRow(
                           startIcon: "assets/images/help_icon.png",
                           name: "Help center",
-                          onTap: onPressEditProfileRow,
+                          onTap: () {},
                         ),
                         SettingRow(
                           startIcon: "assets/images/share_icon.png",
                           name: "Invite friend",
-                          onTap: onPressEditProfileRow,
+                          onTap: () {},
                         ),
                         LogoutRow(
                           onTap: onPressLogoutRow,

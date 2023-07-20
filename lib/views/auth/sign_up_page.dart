@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shoes_shop_app/service/auth_service.dart';
 import 'package:shoes_shop_app/components/auth_button.dart';
-import 'package:shoes_shop_app/views/auth/components/auth_dialog.dart';
+import 'package:shoes_shop_app/views/auth/components/confirm_dialog.dart';
 import 'package:shoes_shop_app/views/auth/components/auth_footer_component.dart';
 import 'package:shoes_shop_app/components/email_text_field.dart';
 import 'package:shoes_shop_app/components/formal_text_field.dart';
@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
       showDialog(
         context: context,
         builder: (context) {
-          return AuthDialog(
+          return ConfirmDialog(
             subject: validateResult['subject'],
             message: validateResult['message'],
             iconPath: 'assets/images/warning-outline.svg',
@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           builder: (buildContext) {
-            return const AuthDialog(
+            return const ConfirmDialog(
               subject: 'Authentication success',
               message: 'Your account have been created',
               iconPath: 'assets/images/checkmark-done-outline.svg',
@@ -92,7 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           builder: (buildContext) {
-            return AuthDialog(
+            return ConfirmDialog(
               subject: 'Authentication failure',
               message: data['message'],
               iconPath: 'assets/images/warning-outline.svg',

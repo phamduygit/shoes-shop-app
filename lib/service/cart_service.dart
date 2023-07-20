@@ -11,7 +11,13 @@ class CartService {
     String path = "/api/v1/cart";
     if (page != null) path = "/api/v1/cart?pageNumber=$page";
     var response = await ClientService().get(path);
-    if (response == null) return listCartItem;
+    if (response == null) {
+      return {
+        "list": listCartItem,
+        "totalPages": totalPages,
+        "totalPrice": totalPrice,
+      };
+    }
 
     if (response.statusCode == HttpStatus.ok) {
       var listItem = response.data["data"]["list"];

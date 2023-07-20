@@ -3,9 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-
-class AuthDialog extends StatelessWidget {
-  const AuthDialog({
+class ConfirmDialog extends StatelessWidget {
+  const ConfirmDialog({
     super.key,
     required this.subject,
     required this.message,
@@ -17,6 +16,7 @@ class AuthDialog extends StatelessWidget {
   final String message;
   final String iconPath;
   final Color color;
+  
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -48,9 +48,9 @@ class AuthDialog extends StatelessWidget {
                   width: 24,
                   fit: BoxFit.scaleDown,
                   colorFilter: const ColorFilter.mode(
-                  AppColors.primaryColor,
-                  BlendMode.srcIn,
-                ),
+                    AppColors.primaryColor,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -70,7 +70,7 @@ class AuthDialog extends StatelessWidget {
                 color: AppColors.secondaryTextColor,
               ),
               textAlign: TextAlign.center,
-            )
+            ),
           ],
         ),
       ),

@@ -13,6 +13,8 @@ class OrderService {
       "shippingMethod": "NORMAL"
     });
 
+    if (response == null) return;
+
     if (response.statusCode == HttpStatus.created) {
       return response;
     }
@@ -25,11 +27,13 @@ class OrderService {
     if (page != null && page > 0) {
       path += "&pageNumber=$page";
     }
-    var response =
-        await ClientService().get(path);
+    var response = await ClientService().get(path);
     List<Order> listOrder = [];
     int totalPages = 0;
 
+    if (response == null ) {
+      return {"list": listOrder, "totalPages": totalPages};
+    }
     if (response.statusCode == HttpStatus.ok) {
       var data = response.data;
       var list = data["list"];

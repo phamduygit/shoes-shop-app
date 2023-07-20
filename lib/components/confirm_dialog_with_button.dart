@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-class UnAuthorizeDialog extends StatelessWidget {
-  const UnAuthorizeDialog({
+class ConfirmDialogWithButton extends StatelessWidget {
+  const ConfirmDialogWithButton({
     super.key,
     required this.subject,
     required this.message,
@@ -20,8 +20,12 @@ class UnAuthorizeDialog extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(10),
+    return Dialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
       child: Container(
         padding: const EdgeInsets.all(20),
         height: 240,

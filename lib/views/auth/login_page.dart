@@ -20,7 +20,7 @@ import 'package:shoes_shop_app/views/auth/sign_up_page.dart';
 import 'package:shoes_shop_app/utils/validate.dart';
 import 'package:shoes_shop_app/constant/colors.dart';
 
-import 'components/auth_dialog.dart';
+import 'components/confirm_dialog.dart';
 import 'components/welcome_string.dart';
 
 class LoginPage extends StatefulWidget {
@@ -52,11 +52,15 @@ class _LoginPageState extends State<LoginPage> {
       // Save refresh token to local storage
       await prefs.setString('refreshToken', data["refreshToken"]);
 
+      // Save refresh token to local storage
+      await prefs.setBool('isAvailableRefreshToken', true);
+
       final userResponse = await UserService().getUserInfo();
 
       authController.setUserInfo(userResponse);
 
-      // authController.setUserInfo(userResponse);
+      authController.setShowingDialog(false);
+
       if (context.mounted) {
         Navigator.of(context).pop(true);
       }
@@ -69,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         showDialog(
           context: context,
           builder: (buildContext) {
-            return AuthDialog(
+            return ConfirmDialog(
               subject: 'Authentication failure',
               message: data['message'],
               iconPath: 'assets/images/warning-outline.svg',
@@ -92,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: context,
         builder: (context) {
-          return AuthDialog(
+          return ConfirmDialog(
             subject: validateResult['subject'],
             message: validateResult['message'],
             iconPath: 'assets/images/warning-outline.svg',
@@ -144,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
             leading: IconButton(
               color: AppColors.secondaryColor,
               onPressed: () {
-                // authController.setShowingDialog(false);
+                authController.setShowingDialog(false);
                 Navigator.of(context).pop(true);
               },
               splashRadius: 24,
