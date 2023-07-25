@@ -31,6 +31,52 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool isLoading = false;
 
+  Future<dynamic> handleClickSignUpWithGoogle() async {
+    // Request register
+    setState(() {
+      isLoading = true;
+    });
+
+    var response = await AuthService().signUpWithGoogle();
+
+    setState(() {
+      isLoading = false;
+    });
+
+    debugPrint("Response: ${jsonDecode(response.body)}");
+    if (response.statusCode == HttpStatus.ok) {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (buildContext) {
+            return const ConfirmDialog(
+              subject: 'Authentication success',
+              message: 'Your account have been created',
+              iconPath: 'assets/images/checkmark-done-outline.svg',
+              color: AppColors.successColor,
+            );
+          },
+        );
+      }
+    } else if (response.statusCode == HttpStatus.badRequest) {
+      var data = response.data;
+
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (buildContext) {
+            return ConfirmDialog(
+              subject: 'Authentication failure',
+              message: data['message'],
+              iconPath: 'assets/images/warning-outline.svg',
+              color: AppColors.warningColor,
+            );
+          },
+        );
+      }
+    }
+  }
+
   Future<dynamic> handleClickSignUpButton() async {
     // Validate all text field
     var validateResult = AuthValidate().validateSignUpForm(
@@ -173,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(height: 24),
                         GoogleButton(
                           title: "Sign Up with Google",
-                          onPressed: () {},
+                          onPressed: handleClickSignUpWithGoogle,
                         ),
                       ],
                     ),

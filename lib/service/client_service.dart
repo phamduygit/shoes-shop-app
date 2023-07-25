@@ -54,6 +54,10 @@ class ClientService {
         }
         return post(path, object);
       }
+
+      if (e.response!.statusCode == HttpStatus.badRequest) {
+        return e.response;
+      }
       return null;
     }
   }

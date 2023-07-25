@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.of(context).pop(true);
       }
     } else {
-      var data = jsonDecode(response.body);
+      var data = response.data;
 
       debugPrint('successful: $data');
 

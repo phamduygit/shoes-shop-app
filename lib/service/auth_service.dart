@@ -47,4 +47,21 @@ class AuthService {
       debugPrint(error.toString());
     }
   }
+
+  Future<dynamic> signUpWithGoogle() async {
+    try {
+      var googleResponse = await googleSignIn.signIn();
+      if (googleResponse != null) {
+        var response = await ClientService().post("/api/v1/auth/register-with-google", {
+          "email": googleResponse.email,
+          "lastName": googleResponse.displayName,
+          "password": 12345678,
+          "role": "USER"
+        });
+        return response;
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
 }
