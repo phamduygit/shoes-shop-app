@@ -16,25 +16,29 @@ This is the mobile used for purchasing shoes, track order, manage cart, profile,
 ## 1. Overview
 Link download file APK: https://drive.google.com/file/d/1_6BrRpuQNwS4yxJ3uPHBHtd5UzEJqJ2o/view?usp=sharing
 
+Link video demo: https://youtu.be/t9FcXW_RmzE
+
+
 <img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/c39ad150-2258-47f8-9eb0-1957d74fd10e">
 <img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/5bf812a9-73d1-4b55-b33b-af9cdb1aef91">
 <img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/531784c3-785a-44b1-8e26-fb41df54bfd5">
 
-
 ## 2. Technology
-- Just use simple framework and library: React, MUI, Axios, Redux,..
+- Just use simple framework and library: Flutter, Getx, OAuth2, Firebase, Dio,.. and lots of library.
 
 ## 3. How to build project
 In the project directory, you can run:
 
-### `npm install`
+Before build application, make sure you installed [Fluter SDK](https://docs.flutter.dev/get-started/install) before.
+
+### `flutter pub get`
 
 Install all dependencies inside application.
 
-### `npm start`
+### `flutter run --<option>`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The command is used to run the application. However, before running this command make sure you have connected devices to run the app.
+- debug: Used to run a debug version
+- profile: For versions specialized for performance profiling
+- release: To run the release version of an application
+- profile: For versions specialized for performance profiling
