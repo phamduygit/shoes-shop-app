@@ -18,10 +18,10 @@ Link download file APK: https://drive.google.com/file/d/1_6BrRpuQNwS4yxJ3uPHBHtd
 
 Link video demo: https://youtu.be/t9FcXW_RmzE
 
-
-<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/c39ad150-2258-47f8-9eb0-1957d74fd10e">
-<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/5bf812a9-73d1-4b55-b33b-af9cdb1aef91">
-<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://github.com/phamduygit/shoes-shop-app/assets/48823695/531784c3-785a-44b1-8e26-fb41df54bfd5">
+<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" 
+src="https://res.cloudinary.com/dvhhz53rr/image/upload/v1690460508/Screenshot_1690449859_wdaf8r.png">
+<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://res.cloudinary.com/dvhhz53rr/image/upload/v1690460541/Screenshot_1690449846_hwehea.png">
+<img width="200" alt="Screenshot 2023-07-27 at 11 06 11 AM" src="https://res.cloudinary.com/dvhhz53rr/image/upload/v1690460588/Screenshot_1690449853_fsjrug.png">
 
 ## 2. Technology
 - Just use simple framework and library: Flutter, Getx, OAuth2, Firebase, Dio,.. and lots of library.
