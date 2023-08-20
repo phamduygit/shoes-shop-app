@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
       totalPage = response[2]["totalPages"];
     }
 
-    
     authController.setUserInfo(response[3]);
     isLoading.value = true;
   }
@@ -172,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         titleButton: "See All",
                       ),
+                      const SizedBox(height: 10),
                       FilterBranches(
                         selectedItemName: selectedBrand.name.value,
                         branchCategories: filterBrandList,

@@ -41,7 +41,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       final ImagePicker picker = ImagePicker();
       // Pick an image.
 
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery, maxHeight: 1080, maxWidth: 1080);
       if (image != null) {
         File file = File(image.path);
         loadingController.load();
