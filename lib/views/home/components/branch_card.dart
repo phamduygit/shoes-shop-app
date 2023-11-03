@@ -32,7 +32,7 @@ class BranchCard extends StatelessWidget {
             decoration: const BoxDecoration(
                 color: AppColors.backgroundTextField, shape: BoxShape.circle),
             // TO DO: Change to png
-            child: SvgPicture.network(
+            child: Image.network(
               brand.image,
               width: 32,
               height: 32,
