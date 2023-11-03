@@ -79,11 +79,15 @@ class HeaderHomePage extends StatelessWidget {
               IconButton(
                 icon: SvgPicture.asset("assets/images/heart_icon.svg"),
                 onPressed: () {
-                  Navigator.of(context).push(
+                  if (authController.getUserInfo().email == "") {
+                    authController.setAuthorize(false);
+                  } else {
+                    Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const MyWishList(),
                     ),
                   );
+                  }
                 },
                 iconSize: 24,
                 splashRadius: 24,

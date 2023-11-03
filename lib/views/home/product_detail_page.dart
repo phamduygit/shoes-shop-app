@@ -42,6 +42,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       Shoes shoes = await FavoriteService().addAddFavorite(shoesData.id);
       if (shoes.favorite) {
         isFavorite.value = true;
+      } else {
+        authController.setAuthorize(false);
       }
     }
   }
